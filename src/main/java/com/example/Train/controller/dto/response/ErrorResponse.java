@@ -74,19 +74,18 @@ public class ErrorResponse {
 
         this.fieldError = new ArrayList<>();
 
-        // 所以需要呼叫 e.getBindingResult().getFieldErrors() 取得不符合基礎檢核的欄位
         // 再放入 fieldError 中
 
 
             Map<String, String> fieldMap = new HashMap<>();
 
             // 欄位名稱
-            fieldMap.put("fields", e.getPropertyName());
+            fieldMap.put("fields", e.getName());
 
-            // 錯誤類型，例 : NotNull 或是 NotBlank
-            fieldMap.put("code",e.getPropertyName());
+            // 錯誤類型
+            fieldMap.put("code",e.getErrorCode());
 
-            // 錯誤訊息，例 : 年齡不可為空
+            // 錯誤訊息
             fieldMap.put("message ", e.getMessage());
 
             fieldError.add(fieldMap);

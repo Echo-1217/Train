@@ -24,15 +24,13 @@ public class TrainService {
     @Autowired
     TrainTicketRepo ticketRepo;
 
-    public GetTargetTrainResponse getTargetTrainResponse(Integer trainNo) throws Exception {
+    public GetTargetTrainResponse getTargetTrainResponse(int trainNo) throws Exception {
         DateTimeFormatter df =DateTimeFormatter.ofPattern("HH:mm");
         GetTargetTrainResponse response=new GetTargetTrainResponse();
         List<Stop>stops=new ArrayList<>();
         Optional<Train> train=trainRepo.findByTrainNo(trainNo);
         Map<String,String> map = Map.of("A","諾亞方舟號","B","霍格華茲號");
-        if(trainNo < 0){
 
-        }
         if(train.isPresent()) {
             response.setTrain_no(trainNo);
             response.setTrain_kind(map.get(train.get().getTrainKind()));

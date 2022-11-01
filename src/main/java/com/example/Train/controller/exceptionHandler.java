@@ -35,7 +35,7 @@ public class exceptionHandler {
 
         ErrorResponse error = new ErrorResponse(e);
 
-        return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     // 捕捉 MethodArgumentTypeMismatchException
