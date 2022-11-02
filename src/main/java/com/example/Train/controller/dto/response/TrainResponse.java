@@ -11,8 +11,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetTargetTrainResponse {
+public class TrainResponse {
     private int train_no;
     private String train_kind;
-    private List<Stop> stops;
+    private List<TrainDetail> trainDetails;
 }

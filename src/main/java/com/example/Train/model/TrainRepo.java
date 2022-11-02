@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface TrainRepo extends JpaRepository<Train, String> {
     Optional<Train> findByTrainNo(Integer trainNo);
+
 }

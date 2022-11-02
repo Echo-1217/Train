@@ -1,4 +1,4 @@
-package com.example.Train.controller.dto.response;
+package com.example.Train.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Stop {
-    private String stop_name;
-    private String stop_time;
-
+public class checkErrors extends Exception {
+    private String message;
+    private String code;
 }

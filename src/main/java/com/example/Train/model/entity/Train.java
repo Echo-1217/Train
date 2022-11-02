@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -19,7 +17,7 @@ import javax.persistence.Table;
 public class Train {
     @Id
     @Column(name = "UUID")
-    private String uuid;
+    private String id;
     @Column(name = "TRAIN_NO")
     private int trainNo;
     @Column(name = "TRAIN_KIND")

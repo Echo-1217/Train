@@ -1,5 +1,6 @@
 package com.example.Train.controller.dto.response;
 
+import com.example.Train.model.entity.TrainErrorException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
@@ -16,7 +17,7 @@ public class ErrorResponse {
 
     // 處理 RequestBody 未通過基礎檢核所拋的 MethodArgumentNotValidException
     public ErrorResponse(MethodArgumentNotValidException e) {
-
+        this.error="Validate Failed";
         this.fieldError = new ArrayList<>();
 
         // 因為未通過基礎檢核的欄位可能不只一個
@@ -41,7 +42,7 @@ public class ErrorResponse {
 
     // 處理 Query String 未通過基礎檢核所拋的 ConstraintViolationException
     public ErrorResponse(ConstraintViolationException e) {
-
+        this.error="Validate Failed";
         this.fieldError = new ArrayList<>();
 
         // 因為未通過基礎檢核的欄位可能不只一個
@@ -72,8 +73,8 @@ public class ErrorResponse {
 
     public ErrorResponse(MethodArgumentTypeMismatchException e) {
 
+        this.error="VALIDATE_FAILED";
         this.fieldError = new ArrayList<>();
-
         // 再放入 fieldError 中
 
 
@@ -86,12 +87,32 @@ public class ErrorResponse {
             fieldMap.put("code",e.getErrorCode());
 
             // 錯誤訊息
-            fieldMap.put("message ", e.getMessage());
+            fieldMap.put("message ", "車次必須為正整數");
 
             fieldError.add(fieldMap);
 
     }
+    public ErrorResponse(TrainErrorException e) {
 
+        this.error="VALIDATE_FAILED";
+        this.fieldError = new ArrayList<>();
+
+        // 再放入 fieldError 中
+
+        Map<String, String> fieldMap = new HashMap<>();
+
+        // 欄位名稱
+        fieldMap.put("fields", e.getFieldName());
+
+        // 錯誤類型
+        fieldMap.put("code",e.getCode());
+
+        // 錯誤訊息
+        fieldMap.put("message ", e.getMessage());
+
+        fieldError.add(fieldMap);
+
+    }
     // 處理 Exception
     public ErrorResponse(Exception e) {
         this.error = e.getMessage();

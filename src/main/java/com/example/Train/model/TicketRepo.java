@@ -1,10 +1,10 @@
 package com.example.Train.model;
 
-import com.example.Train.model.entity.TrainTicket;
+import com.example.Train.model.entity.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TrainTicketRepo extends JpaRepository<TrainTicket, String> {
+public interface TicketRepo extends JpaRepository<Ticket, String> {
 }
 

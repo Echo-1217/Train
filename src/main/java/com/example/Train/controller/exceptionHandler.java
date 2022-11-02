@@ -1,6 +1,7 @@
 package com.example.Train.controller;
 
 import com.example.Train.controller.dto.response.ErrorResponse;
+import com.example.Train.model.entity.TrainErrorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,10 +17,9 @@ public class exceptionHandler {
     //  最後一道防線
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handler(Exception e) {
-
         ErrorResponse error = new ErrorResponse(e);
         e.printStackTrace();
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.valueOf(404));
     }
 
     // 捕捉 MethodArgumentNotValidException
@@ -27,15 +27,16 @@ public class exceptionHandler {
     public ResponseEntity<ErrorResponse> handler(MethodArgumentNotValidException e) {
         ErrorResponse error = new ErrorResponse(e);
         e.printStackTrace();
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.valueOf(400));
     }
+
     // 捕捉 ConstraintViolationException
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> handler(ConstraintViolationException e) {
 
         ErrorResponse error = new ErrorResponse(e);
 
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.valueOf(400));
     }
 
     // 捕捉 MethodArgumentTypeMismatchException
@@ -46,4 +47,10 @@ public class exceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(TrainErrorException.class)
+    public ResponseEntity<ErrorResponse> handler(TrainErrorException e) {
+        ErrorResponse error = new ErrorResponse(e);
+        e.printStackTrace();
+        return new ResponseEntity<>(error, HttpStatus.valueOf(404));
+    }
 }

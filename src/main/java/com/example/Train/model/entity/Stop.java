@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -17,18 +18,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "TRAIN_STOP")
-public class TrainStop {
+public class Stop {
     @Id
     @Column(name = "UUID")
-    private String uuid;
+    private String id;
     @Column(name = "TRAIN_UUID")
-    private String trainUuid;
+    private String trainId;
     @Column(name = "SEQ")
     private int seq;
     @Column(name = "NAME")
     private String name;
     @Column(name = "TIME")
-    private LocalDateTime time;
+    private LocalTime time;
     @Column(name = "DELETE_FLAG")
     private String deleteFlag;
+
+
 }
