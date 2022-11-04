@@ -14,4 +14,6 @@ public interface StopRepo extends JpaRepository<Stop, String> {
 
     List<Stop> findByName(@NonNull String via);
 
+    Optional<Stop> findByNameAndTrainId(@NonNull String name, @NonNull String trainId);
+
 }

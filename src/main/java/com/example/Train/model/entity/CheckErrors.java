@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class checkErrors extends Exception {
-    private String message;
+public class CheckErrors {
     private String code;
+    private String message;
 }

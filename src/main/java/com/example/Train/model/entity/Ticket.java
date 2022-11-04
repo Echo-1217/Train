@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -19,8 +18,8 @@ public class Ticket {
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "TRAIN_NO")
-    private String trainNo;
+    @Column(name = "ticket_no")
+    private String tickNo;
     @Column(name = "TRAIN_UUID")
     private String trainUuid;
     @Column(name = "FROM_STOP")
@@ -28,7 +27,7 @@ public class Ticket {
     @Column(name = "TO_STOP")
     private String toStop;
     @Column(name = "TAKE_DATE")
-    private LocalDateTime takeDate;
+    private String takeDate;
     @Column(name = "PRICE")
     private double price;
 }
