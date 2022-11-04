@@ -1,6 +1,5 @@
 package com.example.Train.model.exception;
 
-import com.example.Train.model.entity.CheckErrors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

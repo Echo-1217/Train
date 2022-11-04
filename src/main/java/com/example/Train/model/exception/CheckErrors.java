@@ -1,4 +1,4 @@
-package com.example.Train.model.entity;
+package com.example.Train.model.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

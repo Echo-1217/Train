@@ -54,6 +54,7 @@ public class TrainExceptionHandler {
         e.printStackTrace();
         return new ResponseEntity<>(error, HttpStatus.valueOf(400));
     }
+
     @ExceptionHandler(CheckException.class)
     public ResponseEntity<CheckErrorResponse> handler(CheckException e) {
         CheckErrorResponse error = new CheckErrorResponse(e);

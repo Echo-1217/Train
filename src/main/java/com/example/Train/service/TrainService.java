@@ -2,17 +2,17 @@ package com.example.Train.service;
 
 import com.example.Train.controller.dto.request.CreateTrainRequest;
 import com.example.Train.controller.dto.request.TicketRequest;
-import com.example.Train.controller.dto.response.UUIdResponse;
 import com.example.Train.controller.dto.response.StationDetail;
 import com.example.Train.controller.dto.response.TrainDetail;
 import com.example.Train.controller.dto.response.TrainResponse;
+import com.example.Train.controller.dto.response.UUIdResponse;
 import com.example.Train.model.StopRepo;
 import com.example.Train.model.TicketRepo;
 import com.example.Train.model.TrainRepo;
-import com.example.Train.model.exception.CheckException;
 import com.example.Train.model.entity.Stop;
 import com.example.Train.model.entity.Ticket;
 import com.example.Train.model.entity.Train;
+import com.example.Train.model.exception.CheckException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ public class TrainService {
     MapTransfer mapTransfer;
 
     public TrainResponse getTargetTrainResponse(int trainNo) throws Exception {
-        Train train = authentication.trainNoCheck(trainNo);
+        Train train = authentication.trainNoFindCheck(trainNo);
 
         DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm");
         TrainResponse response = new TrainResponse();
@@ -75,9 +75,8 @@ public class TrainService {
 
     @Transactional
     public UUIdResponse create(CreateTrainRequest request) throws CheckException {
-        authentication.stopTimeChecked(request);
-        authentication.trainCreateParamChecked(request);
-        authentication.apiCheck(Integer.parseInt(request.getTrain_no()));
+        authentication.trainCreatedCheck(request);
+        authentication.trainApiCheck(Integer.parseInt(request.getTrain_no()));
 
         Train train = new Train();
 
@@ -104,11 +103,11 @@ public class TrainService {
     }
 
     public UUIdResponse getTicket(TicketRequest request) throws CheckException {
-        authentication.ticketCreateChecked(request);
-        authentication.dateCheck(request.getTake_date());
-        Ticket ticket= new Ticket();
+        authentication.ticketCreatedCheck(request);
+        authentication.dateValueCheck(request.getTake_date());
+        Ticket ticket = new Ticket();
         ticket.setTickNo(java.util.UUID.randomUUID().toString().replace("-", "").toUpperCase());
-        ticket.setTrainUuid(authentication.trainNoCheck(Integer.parseInt(request.getTrain_no())).getId());
+        ticket.setTrainUuid(authentication.trainNoFindCheck(Integer.parseInt(request.getTrain_no())).getId());
         ticket.setPrice(calTicket.getTicketPrice());
         ticket.setFromStop(request.getFrom_stop());
         ticket.setToStop(request.getTo_stop());

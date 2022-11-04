@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class StationDetail {
-    private  int train_no;
-    private  String train_kind;
+    private int train_no;
+    private String train_kind;
 }

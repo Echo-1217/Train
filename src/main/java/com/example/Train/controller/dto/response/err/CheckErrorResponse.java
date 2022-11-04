@@ -14,9 +14,9 @@ public class CheckErrorResponse {
     private List<Map<String, String>> checkErrors;
 
 
-    public CheckErrorResponse (CheckException checkException){
+    public CheckErrorResponse(CheckException checkException) {
         this.error = "VALIDATE_FAILED";
-        this.checkErrors= new ArrayList<>();
+        this.checkErrors = new ArrayList<>();
 
         checkException.getCheckErrorsList().forEach(error -> {
 
@@ -29,7 +29,6 @@ public class CheckErrorResponse {
             this.checkErrors.add(stringMap);
         });
     }
-
     public CheckErrorResponse(Exception error) {
         this.error = error.getMessage();
     }

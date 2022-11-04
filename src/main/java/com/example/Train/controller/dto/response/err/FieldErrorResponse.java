@@ -31,9 +31,7 @@ public class FieldErrorResponse {
 
             // 錯誤類型，例 : NotNull 或是 NotBlank
             fieldMap.put("code", error.getCode());
-            // 錯誤訊息，例 : 年齡不可為空
             fieldMap.put("message ", error.getDefaultMessage());
-            // 欄位名稱
             fieldMap.put("fields", error.getField());
 
             fieldError.add(fieldMap);
@@ -59,12 +57,9 @@ public class FieldErrorResponse {
 
             Map<String, String> map = new HashMap<>();
             // 錯誤類型，例 : NotNull 或是 NotBlank
-            map.put("code", error.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName());
-            // 錯誤訊息，例 : 值不可為空
+//            map.put("code", error.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName());
             map.put("message", error.getMessage());
-            // 欄位名稱
             map.put("field", fieldName);
-
             fieldError.add(map);
         });
     }

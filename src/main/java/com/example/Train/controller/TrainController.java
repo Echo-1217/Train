@@ -31,7 +31,7 @@ public class TrainController {
     }
 
     @GetMapping("train")
-    public List<StationDetail> getTrainByStop(@RequestParam @NotBlank(message = "Required String parameter 'via' is not present") String via) throws CheckException {
+    public List<StationDetail> getTrainByVia(@RequestParam @NotBlank(message = "Required String parameter 'via' is not present") String via) throws CheckException {
         return service.getStation(via);
     }
 
