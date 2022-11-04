@@ -7,6 +7,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -98,25 +99,24 @@ public class FieldErrorResponse {
         fieldError.add(fieldMap);
     }
 
+    public FieldErrorResponse(DateTimeParseException dateTimeParseException) {
+        this.error = "VALIDATE_FAILED";
+        this.fieldError = new ArrayList<>();
+        // 再放入 fieldError 中
+        Map<String, String> fieldMap = new HashMap<>();
+
+        // 錯誤類型
+        fieldMap.put("code", dateTimeParseException.getClass().getSimpleName());
+        // 錯誤訊息
+        fieldMap.put("message ", dateTimeParseException.getMessage());
+        // 欄位名稱
+        fieldMap.put("fields", "stop_time");
+
+        fieldError.add(fieldMap);
+    }
+
     // 處理 Exception
     public FieldErrorResponse(Exception exception) {
         this.error = exception.getMessage();
     }
-
-//    public List<Map<String, String>> getFieldError() {
-//        return fieldError;
-//    }
-//
-//    public void setFieldError(List<Map<String, String>> fieldError) {
-//        this.fieldError = fieldError;
-//    }
-//
-//    public String getError() {
-//        return error;
-//    }
-//
-//    public void setError(String error) {
-//        this.error = error;
-//    }
-
 }

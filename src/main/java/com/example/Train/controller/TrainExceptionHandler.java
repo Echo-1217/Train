@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.ConstraintViolationException;
+import java.time.format.DateTimeParseException;
 
 @RestControllerAdvice
 public class TrainExceptionHandler {
@@ -58,6 +59,12 @@ public class TrainExceptionHandler {
     @ExceptionHandler(CheckException.class)
     public ResponseEntity<CheckErrorResponse> handler(CheckException e) {
         CheckErrorResponse error = new CheckErrorResponse(e);
+        e.printStackTrace();
+        return new ResponseEntity<>(error, HttpStatus.valueOf(400));
+    }
+    @ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity<FieldErrorResponse> handler(DateTimeParseException e) {
+        FieldErrorResponse error = new FieldErrorResponse(e);
         e.printStackTrace();
         return new ResponseEntity<>(error, HttpStatus.valueOf(400));
     }
