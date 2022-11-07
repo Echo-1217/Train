@@ -43,17 +43,21 @@ public class TrainCommandImpl implements com.example.Train.service.TrainCommandS
 
         //============================================================================
         trainRepo.save(train);
-
+//          An int value that may be updated atomically.
+//          See the VarHandle specification for descriptions of the properties of atomic accesses.
+//          An AtomicInteger is used in applications such as atomically incremented counters,
+//          and cannot be used as a replacement for an Integer.
+//          However, this class does extend Number to allow uniform access by tools and utilities that deal with numerically-based classes.
         AtomicInteger seq = new AtomicInteger(1);
 
 
-        request.getStops().forEach(stringMap ->
+        request.getTrainStops().forEach(via ->
                 stopRepo.save(new Stop(
                         new UniqueIdCreator().getTrainUid(),
                         train.getId(),
                         seq.getAndIncrement(),
-                        stringMap.get("stop_name"),
-                        LocalTime.parse(stringMap.get("stop_time")),
+                        via.getStopName(),
+                        LocalTime.parse(via.getStopTime()),
                         "N")));
 
         return new UniqueIdResponse(train.getId());

@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.UniqueElements;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -23,6 +22,6 @@ public class CreateTrainRequest {
     private String trainKind;
     @UniqueElements(message = "車站/到站時間不能重複")
     @NotEmpty(message = "停靠站不可以為空")
-    private List<Map<String, String>> stops;
+    private List<TrainStop> trainStops;
 
 }

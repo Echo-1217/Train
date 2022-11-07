@@ -1,10 +1,11 @@
 package com.example.Train.service.valid;
 
 import com.example.Train.controller.dto.request.CreateTrainRequest;
-import com.example.Train.service.apiResult.TrainApiResult;
-import com.example.Train.model.TrainRepo;
+import com.example.Train.controller.dto.request.TrainStop;
 import com.example.Train.exception.err.CheckErrors;
 import com.example.Train.exception.err.CheckException;
+import com.example.Train.model.TrainRepo;
+import com.example.Train.service.apiResult.TrainApiResult;
 import com.example.Train.service.orther.MapTransfer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class TrainCreateCheck extends TrainBasicCheck {
     @Autowired
     TrainRepo trainRepo;
     @Value("${outbound.status.url}")
-    private String url ;
+    private String url;
 
     public void trainCreatedCheck(CreateTrainRequest request) throws CheckException {
         List<CheckErrors> checkErrorsList = new ArrayList<>();
@@ -53,11 +54,7 @@ public class TrainCreateCheck extends TrainBasicCheck {
         }
 
         // time seq
-        if (!Objects.equals(request.getStops().stream()
-                        .sorted(Comparator.comparing(t -> t.get("stop_time"),
-                                Comparator.nullsLast(Comparator.naturalOrder())))//  將空元素被認為大於非空元素
-                        .toList()
-                , request.getStops())) {// time incorrect
+        if (!Objects.equals(request.getTrainStops().stream().sorted(Comparator.comparing(TrainStop::getStopTime)).toList(), request.getTrainStops())) {// time incorrect
             checkErrorsList.add(new CheckErrors("TrainStopTimeNotSorted", "Train Stops Time is not sorted"));
         }
         // api
@@ -73,11 +70,11 @@ public class TrainCreateCheck extends TrainBasicCheck {
     private String placeCheck(CreateTrainRequest request) {
         // 初始化 list via
         List<String> via = new ArrayList<>();
-        request.getStops().forEach(map -> via.add(map.get("stop_name")));
+        request.getTrainStops().forEach(trainStop -> via.add(trainStop.getStopName()));
 
         AtomicReference<String> error = new AtomicReference<>("correct");
         // duplicate stops
-        if (via.stream().distinct().toList().size() != request.getStops().size()) {
+        if (via.stream().distinct().toList().size() != request.getTrainStops().size()) {
             error.set("duplicate");
             return error.get();
         }
@@ -113,7 +110,7 @@ public class TrainCreateCheck extends TrainBasicCheck {
 
     private Boolean trainApiCheck(Integer trainNo) {
 
-        ResponseEntity<TrainApiResult> response = restTemplate.getForEntity(url+trainNo, TrainApiResult.class);
+        ResponseEntity<TrainApiResult> response = restTemplate.getForEntity(url + trainNo, TrainApiResult.class);
         int code = response.getStatusCodeValue();
         if (code == 200) {
             TrainApiResult trainApiResult = response.getBody();
