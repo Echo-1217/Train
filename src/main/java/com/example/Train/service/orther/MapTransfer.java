@@ -1,4 +1,4 @@
-package com.example.Train.service;
+package com.example.Train.service.orther;
 
 import org.springframework.stereotype.Component;
 

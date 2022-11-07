@@ -1,4 +1,4 @@
-package com.example.Train.service;
+package com.example.Train.service.orther;
 
 import com.example.Train.controller.dto.response.apiResult.TicketPriceRes;
 import org.springframework.beans.factory.annotation.Autowired;
