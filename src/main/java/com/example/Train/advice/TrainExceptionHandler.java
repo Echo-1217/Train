@@ -1,9 +1,9 @@
-package com.example.Train.controller;
+package com.example.Train.advice;
 
-import com.example.Train.controller.dto.response.err.CheckErrorResponse;
-import com.example.Train.controller.dto.response.err.FieldErrorResponse;
-import com.example.Train.model.exception.CheckException;
-import com.example.Train.model.exception.TrainParameterException;
+import com.example.Train.exception.response.CheckErrorResponse;
+import com.example.Train.exception.response.FieldErrorResponse;
+import com.example.Train.exception.err.CheckException;
+import com.example.Train.exception.err.TrainParameterException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

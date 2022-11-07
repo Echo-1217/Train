@@ -4,11 +4,11 @@ import com.example.Train.controller.dto.request.CreateTrainRequest;
 import com.example.Train.controller.dto.request.TicketRequest;
 import com.example.Train.controller.dto.response.StationDetail;
 import com.example.Train.controller.dto.response.TrainResponse;
-import com.example.Train.controller.dto.response.UUIdResponse;
-import com.example.Train.model.exception.CheckException;
-import com.example.Train.service.command.TicketCommandService;
-import com.example.Train.service.command.TrainCommandService;
-import com.example.Train.service.query.TrainQueryService;
+import com.example.Train.controller.dto.response.UniqueIdResponse;
+import com.example.Train.exception.err.CheckException;
+import com.example.Train.service.QueryService;
+import com.example.Train.service.command.TicketCommandImpl;
+import com.example.Train.service.command.TrainCommandImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -25,13 +25,14 @@ import java.util.List;
 public class TrainController {
 
     @Autowired
-    TrainQueryService trainQueryService;
+    QueryService trainQueryService;
 
     @Autowired
-    TrainCommandService trainCommandService;
+    TrainCommandImpl trainCommandService;
 
     @Autowired
-    TicketCommandService ticketCommandService;
+    TicketCommandImpl ticketCommandService;
+
 
     @GetMapping("train/{trainNo}/stops")
     public TrainResponse getTargetTrainResponse(@PathVariable @Min(value = 1, message = "車次必須為正整數") int trainNo) throws CheckException {
@@ -44,12 +45,12 @@ public class TrainController {
     }
 
     @PostMapping("train")
-    public UUIdResponse create(@Valid @RequestBody CreateTrainRequest request) throws Exception {
+    public UniqueIdResponse create(@Valid @RequestBody CreateTrainRequest request) throws Exception {
         return trainCommandService.createTrainStops(request);
     }
 
     @PostMapping("ticket")
-    public UUIdResponse ticketCreate(@Valid @RequestBody TicketRequest request) throws CheckException {
+    public UniqueIdResponse ticketCreate(@Valid @RequestBody TicketRequest request) throws CheckException {
         return ticketCommandService.createTicket(request);
     }
 }

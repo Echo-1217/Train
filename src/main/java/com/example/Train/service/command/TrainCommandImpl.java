@@ -1,15 +1,15 @@
 package com.example.Train.service.command;
 
 import com.example.Train.controller.dto.request.CreateTrainRequest;
-import com.example.Train.controller.dto.response.UUIdResponse;
+import com.example.Train.controller.dto.response.UniqueIdResponse;
 import com.example.Train.model.StopRepo;
 import com.example.Train.model.TrainRepo;
 import com.example.Train.model.entity.Stop;
 import com.example.Train.model.entity.Train;
-import com.example.Train.model.exception.CheckException;
+import com.example.Train.exception.err.CheckException;
 import com.example.Train.service.orther.MapTransfer;
-import com.example.Train.service.orther.UUidCreator;
-import com.example.Train.service.authentication.TrainCreateAuth;
+import com.example.Train.service.orther.UniqueIdCreator;
+import com.example.Train.service.valid.TrainCreateCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,25 +18,28 @@ import java.time.LocalTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-public class TrainCommandService {
+public class TrainCommandImpl implements com.example.Train.service.TrainCommandService {
     @Autowired
     TrainRepo trainRepo;
     @Autowired
     StopRepo stopRepo;
     @Autowired
-    TrainCreateAuth trainCreateAuth;
+    TrainCreateCheck trainCreateAuth;
     @Autowired
     MapTransfer mapTransfer;
 
+
+
+    @Override
     @Transactional
-    public UUIdResponse createTrainStops(CreateTrainRequest request) throws CheckException {
+    public UniqueIdResponse createTrainStops(CreateTrainRequest request) throws CheckException {
         trainCreateAuth.trainCreatedCheck(request);
 
         Train train = new Train();
 
-        train.setId(new UUidCreator().getTrainUUID());
-        train.setTrainNo(Integer.parseInt(request.getTrain_no()));
-        train.setTrainKind(mapTransfer.kindTransfer(request.getTrain_kind()));
+        train.setId(new UniqueIdCreator().getTrainUid());
+        train.setTrainNo(Integer.parseInt(request.getTrainNo()));
+        train.setTrainKind(mapTransfer.kindTransfer(request.getTrainKind()));
 
         //============================================================================
         trainRepo.save(train);
@@ -46,14 +49,14 @@ public class TrainCommandService {
 
         request.getStops().forEach(stringMap ->
                 stopRepo.save(new Stop(
-                        new UUidCreator().getTrainUUID(),
+                        new UniqueIdCreator().getTrainUid(),
                         train.getId(),
                         seq.getAndIncrement(),
                         stringMap.get("stop_name"),
                         LocalTime.parse(stringMap.get("stop_time")),
                         "N")));
 
-        return new UUIdResponse(train.getId());
+        return new UniqueIdResponse(train.getId());
     }
 
 }

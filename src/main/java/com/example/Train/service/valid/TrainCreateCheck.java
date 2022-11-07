@@ -1,13 +1,14 @@
-package com.example.Train.service.authentication;
+package com.example.Train.service.valid;
 
 import com.example.Train.controller.dto.request.CreateTrainRequest;
-import com.example.Train.controller.dto.response.apiResult.CheckRes;
+import com.example.Train.service.apiResult.TrainApiResult;
 import com.example.Train.model.TrainRepo;
-import com.example.Train.model.exception.CheckErrors;
-import com.example.Train.model.exception.CheckException;
+import com.example.Train.exception.err.CheckErrors;
+import com.example.Train.exception.err.CheckException;
 import com.example.Train.service.orther.MapTransfer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -21,23 +22,25 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 @Slf4j
-public class TrainCreateAuth {
-    @Autowired
-    TrainRepo trainRepo;
+public class TrainCreateCheck extends TrainBasicCheck {
     @Autowired
     RestTemplate restTemplate;
     @Autowired
     MapTransfer mapTransfer;
+    @Autowired
+    TrainRepo trainRepo;
+    @Value("${outbound.status.url}")
+    private String url ;
 
     public void trainCreatedCheck(CreateTrainRequest request) throws CheckException {
         List<CheckErrors> checkErrorsList = new ArrayList<>();
 
         // wrong No
-        if (trainRepo.findByTrainNo(Integer.parseInt(request.getTrain_no())).isPresent()) {
+        if (trainRepo.findByTrainNo((Integer.parseInt(request.getTrainNo()))).isPresent()) {
             checkErrorsList.add(new CheckErrors("TrainNoExists", "Train No is exists"));
         }
         // invalid kind
-        if (null == mapTransfer.kindTransfer(request.getTrain_kind())) {
+        if (null == mapTransfer.kindTransfer(request.getTrainKind())) {
             checkErrorsList.add(new CheckErrors("TrainKindInvalid", "Train Kind is invalid"));
         }
         // duplicate stops
@@ -58,7 +61,7 @@ public class TrainCreateAuth {
             checkErrorsList.add(new CheckErrors("TrainStopTimeNotSorted", "Train Stops Time is not sorted"));
         }
         // api
-        if (trainApiCheck(Integer.parseInt(request.getTrain_no()))) {
+        if (trainApiCheck(Integer.parseInt(request.getTrainNo()))) {
             checkErrorsList.add(new CheckErrors("TrainNoNotExists", "Train is not available"));
         }
         // return
@@ -109,13 +112,13 @@ public class TrainCreateAuth {
     }
 
     private Boolean trainApiCheck(Integer trainNo) {
-        String url = "https://petstore.swagger.io/v2/pet/" + trainNo;
-        ResponseEntity<CheckRes> response = restTemplate.getForEntity(url, CheckRes.class);
+
+        ResponseEntity<TrainApiResult> response = restTemplate.getForEntity(url+trainNo, TrainApiResult.class);
         int code = response.getStatusCodeValue();
         if (code == 200) {
-            CheckRes checkRes = response.getBody();
-            assert checkRes != null;
-            return !checkRes.getStatus().equals("available");
+            TrainApiResult trainApiResult = response.getBody();
+            assert trainApiResult != null;
+            return !trainApiResult.getStatus().equals("available");
         }
         return false;
     }

@@ -1,6 +1,6 @@
-package com.example.Train.controller.dto.response.err;
+package com.example.Train.exception.response;
 
-import com.example.Train.model.exception.TrainParameterException;
+import com.example.Train.exception.err.TrainParameterException;
 import lombok.Data;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;

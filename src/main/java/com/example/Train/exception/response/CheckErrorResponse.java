@@ -1,6 +1,6 @@
-package com.example.Train.controller.dto.response.err;
+package com.example.Train.exception.response;
 
-import com.example.Train.model.exception.CheckException;
+import com.example.Train.exception.err.CheckException;
 import lombok.Data;
 
 import java.util.ArrayList;

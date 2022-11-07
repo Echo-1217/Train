@@ -1,13 +1,13 @@
-package com.example.Train.service.authentication;
+package com.example.Train.service.valid;
 
 import com.example.Train.controller.dto.request.TicketRequest;
 import com.example.Train.model.StopRepo;
 import com.example.Train.model.TrainRepo;
 import com.example.Train.model.entity.Stop;
 import com.example.Train.model.entity.Train;
-import com.example.Train.model.exception.CheckErrors;
-import com.example.Train.model.exception.CheckException;
-import com.example.Train.model.exception.TrainParameterException;
+import com.example.Train.exception.err.CheckErrors;
+import com.example.Train.exception.err.CheckException;
+import com.example.Train.exception.err.TrainParameterException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,17 +21,16 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-public class TicketCreateAuth {
+public class TicketCreateCheck extends TrainBasicCheck {
     @Autowired
     TrainRepo trainRepo;
     @Autowired
     StopRepo stopRepo;
-    @Autowired
-    TrainBasicAuth basicAuthentication;
+
 
     public void ticketCreatedCheck(TicketRequest request) throws CheckException {
         List<CheckErrors> checkErrorsList = new ArrayList<>();
-        Train train = basicAuthentication.trainNoFindCheck(Integer.parseInt(request.getTrain_no()));
+        Train train = trainNoFindCheck(Integer.parseInt(request.getTrain_no()));
         Optional<Stop> from = stopRepo.findByNameAndTrainId(request.getFrom_stop(), train.getId());
         Optional<Stop> to = stopRepo.findByNameAndTrainId(request.getTo_stop(), train.getId());
         // wrong No

@@ -1,4 +1,4 @@
-package com.example.Train.controller.dto.response.apiResult;
+package com.example.Train.service.apiResult;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,16 +9,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckRes {
+public class TrainApiResult {
     private String id;
     private IdName category;
     private String name;
     private List photoUrls;
     private List<IdName> tags;
     private String status;
-}
-class IdName{
-    private String id;
-    private String name;
 }
 

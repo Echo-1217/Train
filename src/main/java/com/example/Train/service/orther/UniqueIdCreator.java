@@ -3,8 +3,8 @@ package com.example.Train.service.orther;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class UUidCreator {
-    public String getTrainUUID(){
+public class UniqueIdCreator {
+    public String getTrainUid(){
         return java.util.UUID.randomUUID().toString().replace("-", "").toUpperCase();
     }
 }
