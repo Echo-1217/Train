@@ -20,8 +20,7 @@ public class CreateTrainRequest {
     @NotBlank(message = "車種不可以為空")
     @JsonProperty("train_kind")
     private String trainKind;
-    @UniqueElements(message = "車站/到站時間不能重複")
     @NotEmpty(message = "停靠站不可以為空")
-    private List<TrainStop> trainStops;
+    private List<TrainStop> stops;
 
 }

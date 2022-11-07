@@ -52,9 +52,8 @@ public class TrainCreateCheck extends TrainBasicCheck {
         if (placeCheck(request).equals("seq")) {
             checkErrorsList.add(new CheckErrors("TrainStopsNotSorted", "Train Stops is not sorted"));
         }
-
-        // time seq
-        if (!Objects.equals(request.getTrainStops().stream().sorted(Comparator.comparing(TrainStop::getStopTime)).toList(), request.getTrainStops())) {// time incorrect
+        // time incorrect
+        if (!Objects.equals(request.getStops().stream().sorted(Comparator.comparing(TrainStop::getStopTime)).toList(), request.getStops())) {
             checkErrorsList.add(new CheckErrors("TrainStopTimeNotSorted", "Train Stops Time is not sorted"));
         }
         // api
@@ -70,11 +69,11 @@ public class TrainCreateCheck extends TrainBasicCheck {
     private String placeCheck(CreateTrainRequest request) {
         // 初始化 list via
         List<String> via = new ArrayList<>();
-        request.getTrainStops().forEach(trainStop -> via.add(trainStop.getStopName()));
+        request.getStops().forEach(trainStop -> via.add(trainStop.getStopName()));
 
         AtomicReference<String> error = new AtomicReference<>("correct");
         // duplicate stops
-        if (via.stream().distinct().toList().size() != request.getTrainStops().size()) {
+        if (via.stream().distinct().toList().size() != request.getStops().size()) {
             error.set("duplicate");
             return error.get();
         }
