@@ -1,12 +1,12 @@
 package com.example.Train.service.valid;
 
 import com.example.Train.controller.dto.request.CreateTrainRequest;
-import com.example.Train.controller.dto.request.TrainStop;
+import com.example.Train.controller.dto.request.ViaNameTime;
 import com.example.Train.exception.err.CheckErrors;
 import com.example.Train.exception.err.CheckException;
 import com.example.Train.model.TrainRepo;
 import com.example.Train.service.apiResult.TrainApiResult;
-import com.example.Train.service.orther.MapTransfer;
+import com.example.Train.service.orther.NameKindTranslator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,8 +27,6 @@ public class TrainCreateCheck extends TrainBasicCheck {
     @Autowired
     RestTemplate restTemplate;
     @Autowired
-    MapTransfer mapTransfer;
-    @Autowired
     TrainRepo trainRepo;
     @Value("${outbound.status.url}")
     private String url;
@@ -41,7 +39,7 @@ public class TrainCreateCheck extends TrainBasicCheck {
             checkErrorsList.add(new CheckErrors("TrainNoExists", "Train No is exists"));
         }
         // invalid kind
-        if (null == mapTransfer.kindTransfer(request.getTrainKind())) {
+        if (null == NameKindTranslator.getKind(request.getTrainKind())) {
             checkErrorsList.add(new CheckErrors("TrainKindInvalid", "Train Kind is invalid"));
         }
         // duplicate stops
@@ -53,7 +51,7 @@ public class TrainCreateCheck extends TrainBasicCheck {
             checkErrorsList.add(new CheckErrors("TrainStopsNotSorted", "Train Stops is not sorted"));
         }
         // time incorrect
-        if (!Objects.equals(request.getStops().stream().sorted(Comparator.comparing(TrainStop::getStopTime)).toList(), request.getStops())) {
+        if (!Objects.equals(request.getStops().stream().sorted(Comparator.comparing(ViaNameTime::getStopTime)).toList(), request.getStops())) {
             checkErrorsList.add(new CheckErrors("TrainStopTimeNotSorted", "Train Stops Time is not sorted"));
         }
         // api
@@ -69,7 +67,7 @@ public class TrainCreateCheck extends TrainBasicCheck {
     private String placeCheck(CreateTrainRequest request) {
         // 初始化 list via
         List<String> via = new ArrayList<>();
-        request.getStops().forEach(trainStop -> via.add(trainStop.getStopName()));
+        request.getStops().forEach(viaNameTime -> via.add(viaNameTime.getStopName()));
 
         AtomicReference<String> error = new AtomicReference<>("correct");
         // duplicate stops

@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TrainResponse {
-    private int train_no;
-    private String train_kind;
-    private List<StopDetail> stopDetails;
+public class StopDetail {
+    private String stop_name;
+    private String stop_time;
+
 }

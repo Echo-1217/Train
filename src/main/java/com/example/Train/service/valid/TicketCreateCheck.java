@@ -45,7 +45,7 @@ public class TicketCreateCheck extends TrainBasicCheck {
         else if (from.get().getSeq() > to.get().getSeq()) {
             checkErrorsList.add(new CheckErrors("TicketStopsInvalid", "Ticket From & To is invalid"));
         }
-
+        // train_No
         if (!checkErrorsList.isEmpty()) {
             throw new CheckException(checkErrorsList);
         }

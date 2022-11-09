@@ -1,0 +1,54 @@
+15:50:27.595 [background-preinit] INFO  Version -<clinit>   - HV000001: Hibernate Validator 6.2.5.Final
+
+15:50:27.627 [main] INFO  TrainApplication -logStarting   - Starting TrainApplication using Java 18.0.2 on 22005461EchoLin with PID 18004 (C:\Git Repo\Train\target\classes started by 2200546 in C:\Git Repo\Train)
+
+15:50:27.630 [main] INFO  TrainApplication -logStartupProfileInfo   - No active profile set, falling back to 1 default profile: "default"
+
+15:50:28.190 [main] INFO  RepositoryConfigurationDelegate -registerRepositoriesIn   - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+
+15:50:28.246 [main] INFO  RepositoryConfigurationDelegate -registerRepositoriesIn   - Finished Spring Data repository scanning in 50 ms. Found 3 JPA repository interfaces.
+
+15:50:28.757 [main] INFO  TomcatWebServer -initialize   - Tomcat initialized with port(s): 8080 (http)
+
+15:50:28.771 [main] INFO  Http11NioProtocol -log   - Initializing ProtocolHandler ["http-nio-8080"]
+
+15:50:28.772 [main] INFO  StandardService -log   - Starting service [Tomcat]
+
+15:50:28.772 [main] INFO  StandardEngine -log   - Starting Servlet engine: [Apache Tomcat/9.0.68]
+
+15:50:28.868 [main] INFO  [/] -log   - Initializing Spring embedded WebApplicationContext
+
+15:50:28.869 [main] INFO  ServletWebServerApplicationContext -prepareWebApplicationContext   - Root WebApplicationContext: initialization completed in 1205 ms
+
+15:50:28.931 [main] INFO  HikariDataSource -getConnection   - HikariPool-1 - Starting...
+
+15:50:29.168 [main] INFO  HikariDataSource -getConnection   - HikariPool-1 - Start completed.
+
+15:50:29.180 [main] INFO  H2ConsoleAutoConfiguration -logDataSources   - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+
+15:50:29.308 [main] INFO  LogHelper -logPersistenceUnitInformation   - HHH000204: Processing PersistenceUnitInfo [name: default]
+
+15:50:29.373 [main] INFO  Version -logVersion   - HHH000412: Hibernate ORM core version 5.6.12.Final
+
+15:50:29.534 [main] INFO  Version -<clinit>   - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+
+15:50:29.614 [main] INFO  Dialect -<init>   - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+
+15:50:30.026 [main] INFO  JtaPlatformInitiator -initiateService   - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+
+15:50:30.031 [main] INFO  LocalContainerEntityManagerFactoryBean -buildNativeEntityManagerFactory   - Initialized JPA EntityManagerFactory for persistence unit 'default'
+
+15:50:30.514 [main] WARN  JpaBaseConfiguration$JpaWebConfiguration -openEntityManagerInViewInterceptor   - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+
+15:50:30.818 [main] INFO  Http11NioProtocol -log   - Starting ProtocolHandler ["http-nio-8080"]
+
+15:50:30.848 [main] INFO  TomcatWebServer -start   - Tomcat started on port(s): 8080 (http) with context path ''
+
+15:50:30.863 [main] INFO  TrainApplication -logStarted   - Started TrainApplication in 3.714 seconds (JVM running for 4.334)
+
+15:50:42.772 [http-nio-8080-exec-1] INFO  [/] -log   - Initializing Spring DispatcherServlet 'dispatcherServlet'
+
+15:50:42.772 [http-nio-8080-exec-1] INFO  DispatcherServlet -initServletBean   - Initializing Servlet 'dispatcherServlet'
+
+15:50:42.773 [http-nio-8080-exec-1] INFO  DispatcherServlet -initServletBean   - Completed initialization in 1 ms
+

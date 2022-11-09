@@ -1,16 +1,11 @@
 package com.example.Train.controller.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class TrainDetail {
-    private String stop_name;
-    private String stop_time;
-
+    private int train_no;
+    private String train_kind;
 }

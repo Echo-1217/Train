@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -21,6 +20,6 @@ public class CreateTrainRequest {
     @JsonProperty("train_kind")
     private String trainKind;
     @NotEmpty(message = "停靠站不可以為空")
-    private List<TrainStop> stops;
+    private List<ViaNameTime> stops;
 
 }

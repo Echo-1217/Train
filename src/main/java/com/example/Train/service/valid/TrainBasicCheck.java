@@ -1,21 +1,23 @@
 package com.example.Train.service.valid;
 
+import com.example.Train.exception.err.CheckErrors;
+import com.example.Train.exception.err.CheckException;
 import com.example.Train.model.StopRepo;
 import com.example.Train.model.TrainRepo;
 import com.example.Train.model.entity.Stop;
 import com.example.Train.model.entity.Train;
-import com.example.Train.exception.err.CheckErrors;
-import com.example.Train.exception.err.CheckException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
+
 public class TrainBasicCheck {
     @Autowired
     TrainRepo trainRepo;
 
     @Autowired
     StopRepo stopRepo;
+
     public Train trainNoFindCheck(int trainNo) throws CheckException {
         Optional<Train> train = trainRepo.findByTrainNo(trainNo);
         if (train.isEmpty()) {

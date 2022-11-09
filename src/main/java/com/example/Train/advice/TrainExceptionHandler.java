@@ -63,8 +63,8 @@ public class TrainExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.valueOf(400));
     }
     @ExceptionHandler(DateTimeParseException.class)
-    public ResponseEntity<FieldErrorResponse> handler(DateTimeParseException e) {
-        FieldErrorResponse error = new FieldErrorResponse(e);
+    public ResponseEntity<CheckErrorResponse> handler(DateTimeParseException e) {
+        CheckErrorResponse error = new CheckErrorResponse(e);
         e.printStackTrace();
         return new ResponseEntity<>(error, HttpStatus.valueOf(400));
     }

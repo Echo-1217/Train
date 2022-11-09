@@ -1,0 +1,6 @@
+10:15:09.648 [http-nio-8080-exec-2] INFO  [/] -log   - Initializing Spring DispatcherServlet 'dispatcherServlet'
+
+10:15:09.659 [http-nio-8080-exec-2] INFO  DispatcherServlet -initServletBean   - Initializing Servlet 'dispatcherServlet'
+
+10:15:09.660 [http-nio-8080-exec-2] INFO  DispatcherServlet -initServletBean   - Completed initialization in 0 ms
+

@@ -1,4 +1,4 @@
-package com.example.Train.service;
+package com.example.Train.service.infs;
 
 import com.example.Train.controller.dto.request.CreateTrainRequest;
 import com.example.Train.controller.dto.response.UniqueIdResponse;

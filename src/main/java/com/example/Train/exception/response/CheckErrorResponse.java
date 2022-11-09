@@ -3,6 +3,7 @@ package com.example.Train.exception.response;
 import com.example.Train.exception.err.CheckException;
 import lombok.Data;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,21 @@ public class CheckErrorResponse {
             this.checkErrors.add(stringMap);
         });
     }
+    public CheckErrorResponse(DateTimeParseException dateTimeParseException) {
+        this.error = "VALIDATE_FAILED";
+        this.checkErrors = new ArrayList<>();
+        // 再放入 fieldError 中
+        Map<String, String> fieldMap = new HashMap<>();
+
+        // 錯誤類型
+        fieldMap.put("code", dateTimeParseException.getClass().getSimpleName());
+        // 錯誤訊息
+        fieldMap.put("message ", dateTimeParseException.getMessage());
+
+        checkErrors.add(fieldMap);
+    }
+
+
     public CheckErrorResponse(Exception error) {
         this.error = error.getMessage();
     }

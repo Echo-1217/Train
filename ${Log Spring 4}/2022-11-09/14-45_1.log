@@ -1,0 +1,75 @@
+14:45:43.753 [background-preinit] INFO  Version -<clinit>   - HV000001: Hibernate Validator 6.2.5.Final
+
+14:45:43.790 [main] INFO  TrainApplication -logStarting   - Starting TrainApplication using Java 18.0.2 on 22005461EchoLin with PID 12232 (C:\Git Repo\Train\target\classes started by 2200546 in C:\Git Repo\Train)
+
+14:45:43.794 [main] INFO  TrainApplication -logStartupProfileInfo   - No active profile set, falling back to 1 default profile: "default"
+
+14:45:44.339 [main] INFO  RepositoryConfigurationDelegate -registerRepositoriesIn   - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+
+14:45:44.399 [main] INFO  RepositoryConfigurationDelegate -registerRepositoriesIn   - Finished Spring Data repository scanning in 50 ms. Found 3 JPA repository interfaces.
+
+14:45:44.891 [main] INFO  TomcatWebServer -initialize   - Tomcat initialized with port(s): 8080 (http)
+
+14:45:44.908 [main] INFO  Http11NioProtocol -log   - Initializing ProtocolHandler ["http-nio-8080"]
+
+14:45:44.909 [main] INFO  StandardService -log   - Starting service [Tomcat]
+
+14:45:44.909 [main] INFO  StandardEngine -log   - Starting Servlet engine: [Apache Tomcat/9.0.68]
+
+14:45:45.012 [main] INFO  [/] -log   - Initializing Spring embedded WebApplicationContext
+
+14:45:45.013 [main] INFO  ServletWebServerApplicationContext -prepareWebApplicationContext   - Root WebApplicationContext: initialization completed in 1189 ms
+
+14:45:45.051 [main] INFO  HikariDataSource -getConnection   - HikariPool-1 - Starting...
+
+14:45:45.241 [main] INFO  HikariDataSource -getConnection   - HikariPool-1 - Start completed.
+
+14:45:45.249 [main] INFO  H2ConsoleAutoConfiguration -logDataSources   - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+
+14:45:45.361 [main] INFO  LogHelper -logPersistenceUnitInformation   - HHH000204: Processing PersistenceUnitInfo [name: default]
+
+14:45:45.414 [main] INFO  Version -logVersion   - HHH000412: Hibernate ORM core version 5.6.12.Final
+
+14:45:45.593 [main] INFO  Version -<clinit>   - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+
+14:45:45.673 [main] INFO  Dialect -<init>   - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+
+14:45:46.058 [main] INFO  JtaPlatformInitiator -initiateService   - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+
+14:45:46.065 [main] INFO  LocalContainerEntityManagerFactoryBean -buildNativeEntityManagerFactory   - Initialized JPA EntityManagerFactory for persistence unit 'default'
+
+14:45:46.083 [main] WARN  AnnotationConfigServletWebServerApplicationContext -refresh   - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'trainController': Unsatisfied dependency expressed through field 'trainQueryService'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'trainQueryServiceImpl': Unsatisfied dependency expressed through field 'responseHandler'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.example.Train.service.orther.ResponseHandler' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+
+14:45:46.084 [main] INFO  LocalContainerEntityManagerFactoryBean -destroy   - Closing JPA EntityManagerFactory for persistence unit 'default'
+
+14:45:46.085 [main] INFO  SchemaDropperImpl$DelayedDropActionImpl -perform   - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+
+14:45:46.091 [main] INFO  HikariDataSource -close   - HikariPool-1 - Shutdown initiated...
+
+14:45:46.093 [main] INFO  HikariDataSource -close   - HikariPool-1 - Shutdown completed.
+
+14:45:46.096 [main] INFO  StandardService -log   - Stopping service [Tomcat]
+
+14:45:46.106 [main] INFO  ConditionEvaluationReportLoggingListener -logMessage   - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+
+14:45:46.125 [main] ERROR LoggingFailureAnalysisReporter -report   - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field responseHandler in com.example.Train.service.query.TrainQueryServiceImpl required a bean of type 'com.example.Train.service.orther.ResponseHandler' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'com.example.Train.service.orther.ResponseHandler' in your configuration.
+
+

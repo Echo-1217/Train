@@ -2,13 +2,13 @@ package com.example.Train.controller;
 
 import com.example.Train.controller.dto.request.CreateTrainRequest;
 import com.example.Train.controller.dto.request.TicketRequest;
-import com.example.Train.controller.dto.response.StationDetail;
+import com.example.Train.controller.dto.response.TrainDetail;
 import com.example.Train.controller.dto.response.TrainResponse;
 import com.example.Train.controller.dto.response.UniqueIdResponse;
 import com.example.Train.exception.err.CheckException;
-import com.example.Train.service.QueryService;
-import com.example.Train.service.command.TicketCommandImpl;
-import com.example.Train.service.command.TrainCommandImpl;
+import com.example.Train.service.infs.QueryService;
+import com.example.Train.service.impl.command.TicketCommandImpl;
+import com.example.Train.service.impl.command.TrainCommandImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -40,7 +40,7 @@ public class TrainController {
     }
 
     @GetMapping("train")
-    public List<StationDetail> getTrainByVia(@RequestParam @NotBlank(message = "Required String parameter 'via' is not present") String via) throws CheckException {
+    public List<TrainDetail> getTrainByVia(@RequestParam @NotBlank(message = "Required String parameter 'via' is not present") String via) throws CheckException {
         return trainQueryService.getTrainStopsByVia(via);
     }
 
