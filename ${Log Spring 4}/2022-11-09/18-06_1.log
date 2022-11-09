@@ -1,0 +1,8 @@
+18:06:15.481 [SpringApplicationShutdownHook] INFO  LocalContainerEntityManagerFactoryBean -destroy   - Closing JPA EntityManagerFactory for persistence unit 'default'
+
+18:06:15.491 [SpringApplicationShutdownHook] INFO  SchemaDropperImpl$DelayedDropActionImpl -perform   - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+
+18:06:15.683 [SpringApplicationShutdownHook] INFO  HikariDataSource -close   - HikariPool-1 - Shutdown initiated...
+
+18:06:15.686 [SpringApplicationShutdownHook] INFO  HikariDataSource -close   - HikariPool-1 - Shutdown completed.
+

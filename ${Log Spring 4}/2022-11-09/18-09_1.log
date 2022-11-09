@@ -1,0 +1,10 @@
+18:09:13.425 [HikariPool-1 housekeeper] WARN  HikariPool -run   - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54s589ms788µs700ns).
+
+18:09:54.958 [SpringApplicationShutdownHook] INFO  LocalContainerEntityManagerFactoryBean -destroy   - Closing JPA EntityManagerFactory for persistence unit 'default'
+
+18:09:54.962 [SpringApplicationShutdownHook] INFO  SchemaDropperImpl$DelayedDropActionImpl -perform   - HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+
+18:09:55.136 [SpringApplicationShutdownHook] INFO  HikariDataSource -close   - HikariPool-1 - Shutdown initiated...
+
+18:09:55.138 [SpringApplicationShutdownHook] INFO  HikariDataSource -close   - HikariPool-1 - Shutdown completed.
+

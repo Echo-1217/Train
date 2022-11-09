@@ -99,21 +99,21 @@ public class FieldErrorResponse {
         fieldError.add(fieldMap);
     }
 
-    public FieldErrorResponse(DateTimeParseException dateTimeParseException) {
-        this.error = "VALIDATE_FAILED";
-        this.fieldError = new ArrayList<>();
-        // 再放入 fieldError 中
-        Map<String, String> fieldMap = new HashMap<>();
-
-        // 錯誤類型
-        fieldMap.put("code", dateTimeParseException.getClass().getSimpleName());
-        // 錯誤訊息
-        fieldMap.put("message ", dateTimeParseException.getMessage());
-        // 欄位名稱
-        fieldMap.put("fields", "stop_time");
-
-        fieldError.add(fieldMap);
-    }
+//    public FieldErrorResponse(DateTimeParseException dateTimeParseException) {
+//        this.error = "VALIDATE_FAILED";
+//        this.fieldError = new ArrayList<>();
+//        // 再放入 fieldError 中
+//        Map<String, String> fieldMap = new HashMap<>();
+//
+//        // 錯誤類型
+//        fieldMap.put("code", dateTimeParseException.getClass().getSimpleName());
+//        // 錯誤訊息
+//        fieldMap.put("message ", dateTimeParseException.getMessage());
+//        // 欄位名稱
+//        fieldMap.put("fields", "stop_time");
+//
+//        fieldError.add(fieldMap);
+//    }
 
     // 處理 Exception
     public FieldErrorResponse(Exception exception) {

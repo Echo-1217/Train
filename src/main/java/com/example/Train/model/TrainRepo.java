@@ -16,5 +16,6 @@ public interface TrainRepo extends JpaRepository<Train, String> {
     @Query(value = "select train_no,train_kind from TRAIN inner join TRAIN_STOP on TRAIN.UUID= TRAIN_STOP.train_uuid and TRAIN_STOP.name= ?1 ; ", nativeQuery = true)
     List<Map<String, ?>> findByVia(String via);
 
-
+    @Query(value = "SELECT TRAIN_STOP.name,TRAIN_STOP.time,TRAIN.TRAIN_KIND FROM TRAIN inner join TRAIN_STOP  on TRAIN.UUID = TRAIN_STOP.train_uuid and TRAIN.TRAIN_NO = ?1  ;", nativeQuery = true)
+    List<Map<String, ?>> findDataByTrainNo(Integer trainNo);
 }
