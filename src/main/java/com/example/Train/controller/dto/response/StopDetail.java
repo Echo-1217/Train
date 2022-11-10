@@ -1,14 +1,13 @@
 package com.example.Train.controller.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+//@Getter
+//@Setter
+@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+@Builder
 public class StopDetail {
     private String stop_name;
     private String stop_time;

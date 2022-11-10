@@ -1,6 +1,6 @@
 package com.example.Train.exception.response;
 
-import com.example.Train.exception.err.CheckException;
+import com.example.Train.exception.err.CustomizedException;
 import lombok.Data;
 
 import java.time.format.DateTimeParseException;
@@ -15,11 +15,11 @@ public class CheckErrorResponse {
     private List<Map<String, String>> checkErrors;
 
 
-    public CheckErrorResponse(CheckException checkException) {
+    public CheckErrorResponse(CustomizedException customizedException) {
         this.error = "VALIDATE_FAILED";
         this.checkErrors = new ArrayList<>();
 
-        checkException.getCheckErrorsList().forEach(error -> {
+        customizedException.getCheckErrorsList().forEach(error -> {
 
             Map<String, String> stringMap = new HashMap<>();
             // 錯誤類型

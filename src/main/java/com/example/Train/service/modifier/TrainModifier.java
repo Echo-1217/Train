@@ -7,12 +7,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TrainModifier {
-    public Train setAndGetTrain(int trainNo, String kind) {
-        Train train = new Train();
-        train.setId(new UniqueIdCreator().getTrainUid());
-        train.setTrainNo(trainNo);
-        train.setTrainKind(NameKindTranslator.getKind(kind));
+    public Train buildTrain(int trainNo, String kind) {
 
-        return train;
+//        train.setId(new UniqueIdCreator().getTrainUid());
+//        train.setTrainNo(trainNo);
+//        train.setTrainKind(NameKindTranslator.getKind(kind));
+//     ======================
+        return new Train(new UniqueIdCreator().getTrainUid(), trainNo, NameKindTranslator.getKind(kind));
+//     ========================
+        //        return Train.builder()
+//                .id(new UniqueIdCreator().getTrainUid())
+//                .trainNo(trainNo)
+//                .trainKind(NameKindTranslator.getKind(kind))
+//                .build();
     }
 }

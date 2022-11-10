@@ -5,7 +5,7 @@ import com.example.Train.controller.dto.request.TicketRequest;
 import com.example.Train.controller.dto.response.TrainDetail;
 import com.example.Train.controller.dto.response.TrainResponse;
 import com.example.Train.controller.dto.response.UniqueIdResponse;
-import com.example.Train.exception.err.CheckException;
+import com.example.Train.exception.err.CustomizedException;
 import com.example.Train.service.impl.command.TicketCommandImpl;
 import com.example.Train.service.impl.command.TrainCommandImpl;
 import com.example.Train.service.infs.QueryService;
@@ -35,12 +35,12 @@ public class TrainController {
 
 
     @GetMapping("train/{trainNo}/stops")
-    public TrainResponse getTargetTrainResponse(@PathVariable @Min(value = 1, message = "車次必須為正整數") int trainNo) throws CheckException {
+    public TrainResponse getTargetTrainResponse(@PathVariable @Min(value = 1, message = "車次必須為正整數") int trainNo) throws CustomizedException {
         return trainQueryService.getTrainStopsByTrainNO(trainNo);
     }
 
     @GetMapping("train")
-    public List<TrainDetail> getTrainByVia(@RequestParam @NotBlank(message = "Required String parameter 'via' is not present") String via) throws CheckException {
+    public List<TrainDetail> getTrainByVia(@RequestParam @NotBlank(message = "Required String parameter 'via' is not present") String via) throws CustomizedException {
         return trainQueryService.getTrainStopsByVia(via);
     }
 
@@ -50,7 +50,7 @@ public class TrainController {
     }
 
     @PostMapping("ticket")
-    public UniqueIdResponse ticketCreate(@Valid @RequestBody TicketRequest request) throws CheckException {
+    public UniqueIdResponse ticketCreate(@Valid @RequestBody TicketRequest request) throws CustomizedException {
         return ticketCommandService.createTicket(request);
     }
 }

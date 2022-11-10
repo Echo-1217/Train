@@ -1,0 +1,4 @@
+10:44:04.447 [http-nio-8080-exec-4] INFO  TicketCreateCheck -dateValueCheck   - input date: Wed Apr 22 00:00:00 CST 2020
+
+10:44:24.800 [http-nio-8080-exec-8] INFO  TicketCreateCheck -dateValueCheck   - input date: Wed Apr 22 00:00:00 CST 2020
+

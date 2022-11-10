@@ -2,7 +2,7 @@ package com.example.Train.service.impl.command;
 
 import com.example.Train.controller.dto.request.CreateTrainRequest;
 import com.example.Train.controller.dto.response.UniqueIdResponse;
-import com.example.Train.exception.err.CheckException;
+import com.example.Train.exception.err.CustomizedException;
 import com.example.Train.model.StopRepo;
 import com.example.Train.model.TrainRepo;
 import com.example.Train.model.entity.Train;
@@ -31,13 +31,13 @@ public class TrainCommandImpl implements TrainCommandService {
 
     @Override
     @Transactional
-    public UniqueIdResponse createTrainStops(CreateTrainRequest request) throws CheckException {
+    public UniqueIdResponse createTrainStops(CreateTrainRequest request) throws CustomizedException {
         //  set train
         trainCreateCheck.trainCreatedCheck(request);
-        Train train = trainModifier.setAndGetTrain(Integer.parseInt(request.getTrainNo()), request.getTrainKind());
+        Train train = trainModifier.buildTrain(Integer.parseInt(request.getTrainNo()), request.getTrainKind());
         trainRepo.save(train);
-        //===================================================
-        stopRepo.saveAll(stopModifier.setAndGetStopList(request.getStops(), train.getId()));
+        //==================
+        stopRepo.saveAll(stopModifier.buildStopList(request.getStops(), train.getId()));
 
         return new UniqueIdResponse(train.getId());
     }

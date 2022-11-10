@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckException extends Exception {
+public class CustomizedException extends Exception {
     List<CheckErrors> checkErrorsList;
 }

@@ -1,6 +1,6 @@
 package com.example.Train.service.modifier;
 
-import com.example.Train.exception.err.CheckException;
+import com.example.Train.exception.err.CustomizedException;
 import com.example.Train.model.entity.Ticket;
 import com.example.Train.service.orther.TicketPrice;
 import com.example.Train.service.orther.UniqueIdCreator;
@@ -13,16 +13,27 @@ public class TicketModifier {
     @Autowired
     TicketPrice ticketPrice;
     @Autowired
-    TicketCreateCheck check;
+    TicketCreateCheck ticketCreateCheck;
 
-    public Ticket setAndGetTicket(String trainNo, String fromStop, String toStop, String date) throws CheckException {
-        Ticket ticket = new Ticket();
-        ticket.setTickNo(new UniqueIdCreator().getTrainUid()); // uuid
-        ticket.setTrainUuid(check.trainNoFindCheck(Integer.parseInt(trainNo)).getId());
-        ticket.setPrice(ticketPrice.getTicketPrice());
-        ticket.setFromStop(fromStop);
-        ticket.setToStop(toStop);
-        ticket.setTakeDate(date);
-        return ticket;
+    public Ticket buildTicket(String trainNo, String fromStop, String toStop, String date) throws CustomizedException {
+//        Ticket ticket= new Ticket()
+//        ticket.setTickNo(new UniqueIdCreator().getTrainUid()); // uuid
+//        ticket.setTrainUuid(check.trainNoFindCheck(Integer.parseInt(trainNo)).getId());
+//        ticket.setPrice(ticketPrice.getTicketPrice());
+//        ticket.setFromStop(fromStop);
+//        ticket.setToStop(toStop);
+//        ticket.setTakeDate(date);
+//        return ticket;
+        //======================================
+        return new Ticket(ticketCreateCheck.trainNoFindCheck(Integer.parseInt(trainNo)).getId(), new UniqueIdCreator().getTrainUid(), fromStop, toStop, date, ticketPrice.getTicketPrice());
+//==============================
+        //        return Ticket.builder()
+//                .trainUuid(ticketCreateCheck.trainNoFindCheck(Integer.parseInt(trainNo)).getId())
+//                .tickNo(new UniqueIdCreator().getTrainUid())
+//                .price(ticketPrice.getTicketPrice())
+//                .fromStop(fromStop)
+//                .toStop(toStop)
+//                .takeDate(date)
+//                .build();
     }
 }

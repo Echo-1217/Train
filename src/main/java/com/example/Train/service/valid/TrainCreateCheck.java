@@ -3,7 +3,7 @@ package com.example.Train.service.valid;
 import com.example.Train.controller.dto.request.CreateTrainRequest;
 import com.example.Train.controller.dto.request.ViaNameTime;
 import com.example.Train.exception.err.CheckErrors;
-import com.example.Train.exception.err.CheckException;
+import com.example.Train.exception.err.CustomizedException;
 import com.example.Train.model.TrainRepo;
 import com.example.Train.service.apiResult.TrainApiResult;
 import com.example.Train.service.orther.NameKindTranslator;
@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 @Slf4j
-public class TrainCreateCheck extends TrainBasicCheck {
+public class TrainCreateCheck{
     @Autowired
     RestTemplate restTemplate;
     @Autowired
@@ -31,7 +31,7 @@ public class TrainCreateCheck extends TrainBasicCheck {
     @Value("${outbound.status.url}")
     private String url;
 
-    public void trainCreatedCheck(CreateTrainRequest request) throws CheckException {
+    public void trainCreatedCheck(CreateTrainRequest request) throws CustomizedException {
         List<CheckErrors> checkErrorsList = new ArrayList<>();
 
         // wrong No
@@ -60,7 +60,7 @@ public class TrainCreateCheck extends TrainBasicCheck {
         }
         // return
         if (!checkErrorsList.isEmpty()) {
-            throw new CheckException(checkErrorsList);
+            throw new CustomizedException(checkErrorsList);
         }
     }
 

@@ -2,7 +2,7 @@ package com.example.Train.service.impl.query;
 
 import com.example.Train.controller.dto.response.TrainDetail;
 import com.example.Train.controller.dto.response.TrainResponse;
-import com.example.Train.exception.err.CheckException;
+import com.example.Train.exception.err.CustomizedException;
 import com.example.Train.service.infs.QueryService;
 import com.example.Train.service.orther.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,12 @@ public class TrainQueryServiceImpl implements QueryService {
     ResponseHandler responseHandler;
 
     @Override
-    public TrainResponse getTrainStopsByTrainNO(int trainNo) throws CheckException {
-        return responseHandler.getTrainResponse(trainNo);
+    public TrainResponse getTrainStopsByTrainNO(int trainNo) throws CustomizedException {
+        return responseHandler.buildTrainResponse(trainNo);
     }
 
     @Override
-    public List<TrainDetail> getTrainStopsByVia(String via) throws CheckException {
+    public List<TrainDetail> getTrainStopsByVia(String via) throws CustomizedException {
         return responseHandler.getStationDetailList(via);
     }
 }

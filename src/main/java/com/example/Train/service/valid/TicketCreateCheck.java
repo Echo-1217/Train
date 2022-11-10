@@ -1,13 +1,13 @@
 package com.example.Train.service.valid;
 
 import com.example.Train.controller.dto.request.TicketRequest;
+import com.example.Train.exception.err.CheckErrors;
+import com.example.Train.exception.err.CustomizedException;
+import com.example.Train.exception.err.TrainParameterException;
 import com.example.Train.model.StopRepo;
 import com.example.Train.model.TrainRepo;
 import com.example.Train.model.entity.Stop;
 import com.example.Train.model.entity.Train;
-import com.example.Train.exception.err.CheckErrors;
-import com.example.Train.exception.err.CheckException;
-import com.example.Train.exception.err.TrainParameterException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,14 +21,14 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-public class TicketCreateCheck extends TrainBasicCheck {
+public class TicketCreateCheck {
     @Autowired
     TrainRepo trainRepo;
     @Autowired
     StopRepo stopRepo;
 
 
-    public void ticketCreatedCheck(TicketRequest request) throws CheckException {
+    public void ticketCreatedCheck(TicketRequest request) throws CustomizedException {
         List<CheckErrors> checkErrorsList = new ArrayList<>();
         Train train = trainNoFindCheck(Integer.parseInt(request.getTrain_no()));
         Optional<Stop> from = stopRepo.findByNameAndTrainId(request.getFrom_stop(), train.getId());
@@ -47,7 +47,7 @@ public class TicketCreateCheck extends TrainBasicCheck {
         }
         // train_No
         if (!checkErrorsList.isEmpty()) {
-            throw new CheckException(checkErrorsList);
+            throw new CustomizedException(checkErrorsList);
         }
     }
 
@@ -65,4 +65,11 @@ public class TicketCreateCheck extends TrainBasicCheck {
         }
     }
 
+    public Train trainNoFindCheck(int trainNo) throws CustomizedException {
+        Optional<Train> train = trainRepo.findByTrainNo(trainNo);
+        if (train.isEmpty()) {
+            throw new CustomizedException(List.of(new CheckErrors("trainNoNotExists", "Train No does not exists")));
+        }
+        return train.get();
+    }
 }

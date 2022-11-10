@@ -1,14 +1,11 @@
 package com.example.Train.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -30,4 +27,13 @@ public class Ticket {
     private String takeDate;
     @Column(name = "PRICE")
     private double price;
+
+    public Ticket(String tickNo, String trainUuid, String fromStop, String toStop, String takeDate, double price) {
+        this.tickNo = tickNo;
+        this.trainUuid = trainUuid;
+        this.fromStop = fromStop;
+        this.toStop = toStop;
+        this.takeDate = takeDate;
+        this.price = price;
+    }
 }
