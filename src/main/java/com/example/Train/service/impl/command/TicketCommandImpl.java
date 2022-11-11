@@ -6,8 +6,8 @@ import com.example.Train.exception.err.CustomizedException;
 import com.example.Train.model.TicketRepo;
 import com.example.Train.model.entity.Ticket;
 import com.example.Train.service.infs.TicketCommandService;
-import com.example.Train.service.modifier.TicketModifier;
-import com.example.Train.service.valid.TicketCreateCheck;
+import com.example.Train.service.domain.modifier.TicketModifier;
+import com.example.Train.service.domain.valid.TicketDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public class TicketCommandImpl implements TicketCommandService {
 
     @Autowired
-    TicketCreateCheck check;
+    TicketDomainService check;
     @Autowired
     TicketModifier ticketModifier;
     @Autowired

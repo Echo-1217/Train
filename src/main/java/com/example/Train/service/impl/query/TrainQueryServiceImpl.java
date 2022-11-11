@@ -4,7 +4,7 @@ import com.example.Train.controller.dto.response.TrainDetail;
 import com.example.Train.controller.dto.response.TrainResponse;
 import com.example.Train.exception.err.CustomizedException;
 import com.example.Train.service.infs.QueryService;
-import com.example.Train.service.orther.ResponseHandler;
+import com.example.Train.service.domain.orther.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

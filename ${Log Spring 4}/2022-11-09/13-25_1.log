@@ -1,8 +1,0 @@
-13:25:25.809 [http-nio-8080-exec-2] INFO  [/] -log   - Initializing Spring DispatcherServlet 'dispatcherServlet'
-
-13:25:25.818 [http-nio-8080-exec-2] INFO  DispatcherServlet -initServletBean   - Initializing Servlet 'dispatcherServlet'
-
-13:25:25.818 [http-nio-8080-exec-2] INFO  DispatcherServlet -initServletBean   - Completed initialization in 0 ms
-
-13:25:35.272 [http-nio-8080-exec-6] INFO  TicketCreateCheck -dateValueCheck   - input date: Wed Apr 22 00:00:00 CST 2020
-

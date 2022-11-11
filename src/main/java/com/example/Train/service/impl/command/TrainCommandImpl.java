@@ -7,9 +7,9 @@ import com.example.Train.model.StopRepo;
 import com.example.Train.model.TrainRepo;
 import com.example.Train.model.entity.Train;
 import com.example.Train.service.infs.TrainCommandService;
-import com.example.Train.service.modifier.StopModifier;
-import com.example.Train.service.modifier.TrainModifier;
-import com.example.Train.service.valid.TrainCreateCheck;
+import com.example.Train.service.domain.modifier.StopModifier;
+import com.example.Train.service.domain.modifier.TrainModifier;
+import com.example.Train.service.domain.valid.TrainDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class TrainCommandImpl implements TrainCommandService {
     @Autowired
     TrainModifier trainModifier;
     @Autowired
-    TrainCreateCheck trainCreateCheck;
+    TrainDomainService trainDomainService;
 
     @Autowired
     StopModifier stopModifier;
@@ -33,7 +33,7 @@ public class TrainCommandImpl implements TrainCommandService {
     @Transactional
     public UniqueIdResponse createTrainStops(CreateTrainRequest request) throws CustomizedException {
         //  set train
-        trainCreateCheck.trainCreatedCheck(request);
+        trainDomainService.trainCreatedCheck(request);
         Train train = trainModifier.buildTrain(Integer.parseInt(request.getTrainNo()), request.getTrainKind());
         trainRepo.save(train);
         //==================
