@@ -1,5 +1,6 @@
 package com.example.Train.application.outBound;
 
+import com.example.Train.adapter.obj.AddTrain;
 import com.example.Train.exception.err.CheckErrors;
 import com.example.Train.exception.err.CustomizedException;
 import com.example.Train.exception.response.ErrorInfo;
@@ -22,18 +23,25 @@ public class TrainOutBoundService {
     @Autowired
     RestTemplate restTemplate;
 
-    public Boolean trainApiCheck(Integer trainNo) {
+    public void trainApiCheck(AddTrain addTrain) throws CustomizedException {
 
-        ResponseEntity<TrainApiResult> response = restTemplate.getForEntity(url + trainNo, TrainApiResult.class);
+        ResponseEntity<TrainApiResult> response = restTemplate.getForEntity(url + addTrain.getTrainNo(), TrainApiResult.class);
         int code = response.getStatusCodeValue();
-        if (code == 200) {
-            TrainApiResult trainApiResult = response.getBody();
-            assert trainApiResult != null;
-            return !trainApiResult.getStatus().equals("available");
+        TrainApiResult trainApiResult = response.getBody();
+        if(null==trainApiResult){
+            throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainOutBoundApi.getCode(), ErrorInfo.trainOutBoundApi.getErrorMessage())));
         }
-        return false;
+        if (code == 200&&!trainApiResult.getStatus().equals("available")) {
+            throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainNotAvailable.getCode(), ErrorInfo.trainNotAvailable.getErrorMessage())));
+        }
     }
-
+//    public void apiCheck(AddTrain addTrain, List<CheckErrors> checkErrorsList) throws CustomizedException {
+//        ResponseEntity<TrainApiResult> apiResultResponseEntity = trainOutBoundService.getResponse(addTrain.getTrainNo());
+//        log.info(apiResultResponseEntity.toString());
+//        if (200 == apiResultResponseEntity.getStatusCodeValue() && !apiResultResponseEntity.getBody().equals("available")) {
+//            checkErrorsList.add(new CheckErrors(ErrorInfo.trainNotAvailable.getCode(), ErrorInfo.trainNotAvailable.getErrorMessage()));
+//        }
+//    }
     public ResponseEntity<TrainApiResult> getResponse(Integer trainNo) throws CustomizedException {
         try {
             return restTemplate.getForEntity(url + trainNo, TrainApiResult.class);

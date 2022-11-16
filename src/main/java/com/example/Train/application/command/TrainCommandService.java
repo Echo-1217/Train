@@ -2,6 +2,7 @@ package com.example.Train.application.command;
 
 import com.example.Train.adapter.dto.request.CreateTrainRequest;
 import com.example.Train.adapter.dto.response.UniqueIdResponse;
+import com.example.Train.application.outBound.TrainOutBoundService;
 import com.example.Train.exception.err.CheckErrors;
 import com.example.Train.adapter.obj.AddTrain;
 import com.example.Train.domain.entity.Stop;
@@ -24,7 +25,8 @@ public class TrainCommandService {
     StopRepo stopRepo;
     @Autowired
     TrainDomainService trainDomainService;
-
+    @Autowired
+    TrainOutBoundService trainOutBoundService;
     @Transactional
     public UniqueIdResponse createTrainStops(CreateTrainRequest request) throws Exception {
 
@@ -35,9 +37,8 @@ public class TrainCommandService {
         CheckErrors checkTime = new Stop().checkTime(addTrain);
         CheckErrors checkPlace = new Stop().placeCheck(addTrain);
         //============= multi field check =============
-
         trainDomainService.summaryCheck(addTrain, checkKind, checkTime, checkPlace);
-
+        trainOutBoundService.trainApiCheck(addTrain);
         //============ create entity ============
 
         Train train = new Train(addTrain);

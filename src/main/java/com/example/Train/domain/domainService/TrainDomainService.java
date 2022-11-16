@@ -59,7 +59,8 @@ public class TrainDomainService {
 //        if (200 == apiResultResponseEntity.getStatusCodeValue() && !Objects.equals(apiResultResponseEntity.getBody(), "available")) {
 //            checkErrorsList.add(new CheckErrors("TrainNoNotExists", "Train is not available"));
 //        }
-        apiCheck(addTrain, checkErrorsList);
+
+//        apiCheck(addTrain, checkErrorsList);
 
         // return
         if (!checkErrorsList.isEmpty()) {
@@ -73,13 +74,6 @@ public class TrainDomainService {
         }
     }
 
-    public void apiCheck(AddTrain addTrain, List<CheckErrors> checkErrorsList) throws CustomizedException {
-            ResponseEntity<TrainApiResult> apiResultResponseEntity = trainOutBoundService.getResponse(addTrain.getTrainNo());
-            log.info(apiResultResponseEntity.toString());
-            if (200 == apiResultResponseEntity.getStatusCodeValue() && !apiResultResponseEntity.getBody().equals("available")) {
-                checkErrorsList.add(new CheckErrors(ErrorInfo.trainNotAvailable.getCode(), ErrorInfo.trainNotAvailable.getErrorMessage()));
-            }
-    }
 
 
 //    private void placeCheck(AddTrain addTrain, List<CheckErrors> checkErrorsList) {
