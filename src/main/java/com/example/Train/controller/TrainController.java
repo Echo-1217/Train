@@ -6,9 +6,9 @@ import com.example.Train.controller.dto.response.TrainDetail;
 import com.example.Train.controller.dto.response.TrainResponse;
 import com.example.Train.controller.dto.response.UniqueIdResponse;
 import com.example.Train.exception.err.CustomizedException;
-import com.example.Train.service.impl.command.TicketCommandImpl;
-import com.example.Train.service.impl.command.TrainCommandImpl;
-import com.example.Train.service.infs.QueryService;
+import com.example.Train.service.appLayer.command.TicketCommandService;
+import com.example.Train.service.appLayer.command.TrainCommandService;
+import com.example.Train.service.appLayer.query.QueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -28,14 +28,14 @@ public class TrainController {
     QueryService trainQueryService;
 
     @Autowired
-    TrainCommandImpl trainCommandService;
+    TrainCommandService trainCommandService;
 
     @Autowired
-    TicketCommandImpl ticketCommandService;
+    TicketCommandService ticketCommandService;
 
 
     @GetMapping("train/{trainNo}/stops")
-    public TrainResponse getTargetTrainResponse(@PathVariable @Min(value = 1, message = "車次必須為正整數") int trainNo) throws CustomizedException {
+    public TrainResponse getTargetTrainResponse(@PathVariable @Min(value = 0, message = "車次必須為正整數") int trainNo) throws Exception {
         return trainQueryService.getTrainStopsByTrainNO(trainNo);
     }
 

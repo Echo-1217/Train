@@ -1,11 +1,12 @@
-package com.example.Train.service.domain.orther;
+package com.example.Train.service.domainLayer.orther;
 
 import com.example.Train.controller.dto.response.StopDetail;
 import com.example.Train.controller.dto.response.TrainDetail;
 import com.example.Train.controller.dto.response.TrainResponse;
 import com.example.Train.exception.err.CheckErrors;
 import com.example.Train.exception.err.CustomizedException;
-import com.example.Train.model.TrainRepo;
+import com.example.Train.model.entity.Train;
+import com.example.Train.model.repository.TrainRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,10 +20,12 @@ public class ResponseHandler {
     @Autowired
     TrainRepo trainRepo;
 
-    public TrainResponse buildTrainResponse(int trainNo) {
+    public TrainResponse buildTrainResponse(int trainNo) throws Exception {
         List<Map<String, ?>> dataList = trainRepo.findDataByTrainNo(trainNo);
         List<StopDetail> stopDetails = new ArrayList<>();
-
+        if (dataList.isEmpty()) {
+            throw new Exception("車次不存在");
+        }
         dataList.forEach(map ->
                 stopDetails.add(StopDetail.builder()
                         .stop_name(map.get("name").toString())
@@ -31,13 +34,9 @@ public class ResponseHandler {
 
         return TrainResponse.builder()
                 .train_no(trainNo)
-                .train_kind(NameKindTranslator.getName(dataList.get(0).get("TRAIN_KIND").toString()))
+                .train_kind(Train.NameKindTranslator.getName(dataList.get(0).get("TRAIN_KIND").toString()))
                 .stopDetails(stopDetails)
                 .build();
-//        response.setTrain_no(trainNo);
-//        response.setTrain_kind(NameKindTranslator.getName(dataList.get(0).get("TRAIN_KIND").toString()));
-//        response.setStopDetails(stopDetails);
-
     }
 
     public List<TrainDetail> getStationDetailList(String via) throws CustomizedException {
@@ -48,7 +47,7 @@ public class ResponseHandler {
         }
         dataList.forEach(m -> details.add(TrainDetail.builder()
                 .train_no((int) m.get("train_no"))
-                .train_kind(NameKindTranslator.getName(m.get("train_kind").toString()))
+                .train_kind(Train.NameKindTranslator.getName(m.get("train_kind").toString()))
                 .build()));
         return details;
     }

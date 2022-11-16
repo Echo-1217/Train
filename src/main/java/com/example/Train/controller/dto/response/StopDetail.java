@@ -1,6 +1,7 @@
 package com.example.Train.controller.dto.response;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
 //@Getter
 //@Setter

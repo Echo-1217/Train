@@ -30,6 +30,7 @@ public class CheckErrorResponse {
             this.checkErrors.add(stringMap);
         });
     }
+
     public CheckErrorResponse(DateTimeParseException dateTimeParseException) {
         this.error = "VALIDATE_FAILED";
         this.checkErrors = new ArrayList<>();

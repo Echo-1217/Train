@@ -1,9 +1,9 @@
 package com.example.Train.advice;
 
-import com.example.Train.exception.response.CheckErrorResponse;
-import com.example.Train.exception.response.FieldErrorResponse;
 import com.example.Train.exception.err.CustomizedException;
 import com.example.Train.exception.err.TrainParameterException;
+import com.example.Train.exception.response.CheckErrorResponse;
+import com.example.Train.exception.response.FieldErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -62,6 +62,7 @@ public class TrainExceptionHandler {
         e.printStackTrace();
         return new ResponseEntity<>(error, HttpStatus.valueOf(400));
     }
+
     @ExceptionHandler(DateTimeParseException.class)
     public ResponseEntity<CheckErrorResponse> handler(DateTimeParseException e) {
         CheckErrorResponse error = new CheckErrorResponse(e);

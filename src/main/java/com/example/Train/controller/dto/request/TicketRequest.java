@@ -1,24 +1,31 @@
 package com.example.Train.controller.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class TicketRequest {
-    @NotBlank(message = "車次不可以為空")
-    private String train_no;
+    @NotEmpty(message = "車次不可以為空")
+    @JsonProperty("train_no")
+    private String trainNo;
     @NotBlank(message = "起站不可以為空")
-    private String from_stop;
+    @JsonProperty("from_stop")
+    private String fromStop;
     @NotBlank(message = "到站不可以為空")
-    private String to_stop;
-    @Pattern(regexp = "^\\d{4}[\\-/\\.](0?[1-9]|1[012])[\\-/\\.](0?[1-9]|[12][0-9]|3[01])$", message = "日期格式不正確 yyyy-mm-dd")
-    private String take_date;
+    @JsonProperty("to_stop")
+    private String toStop;
+    //    @Pattern(regexp = "^\\d{4}[\\-/\\.](0?[1-9]|1[012])[\\-/\\.](0?[1-9]|[12][0-9]|3[01])$", message = "日期格式不正確 yyyy-mm-dd")
+    @Pattern(regexp = "((((19|20)\\d{2})-(0?[13578]|1[02])-(0?[1-9]|[12]\\d|3[01]))|(((19|20)\\d{2})-(0?[469]|11)-(0?[1-9]|[12]\\d|30))|(((19|20)\\d{2})-0?2-(0?[1-9]|1\\d|2[0-8]))|((((19|20)([13579][26]|[2468][048]|0[48]))|(2000))-0?2-(0?[1-9]|[12]\\d)))$", message = "日期格式不正確 yyyy-mm-dd")
+    @JsonProperty("take_date")
+    private String takeDate;
 
     //  ^代表開始的匹配。
     //  $代表結尾的匹配。

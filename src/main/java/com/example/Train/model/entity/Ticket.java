@@ -1,14 +1,21 @@
 package com.example.Train.model.entity;
 
+import com.example.Train.exception.err.CheckErrors;
+import com.example.Train.exception.response.ErrorInfo;
+import com.example.Train.model.addObj.AddTicket;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.utility.RandomString;
 
 import javax.persistence.*;
 
-@Data
-@Builder
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Slf4j
 @Table(name = "TRAIN_TICKET")
 public class Ticket {
     @Id
@@ -28,12 +35,19 @@ public class Ticket {
     @Column(name = "PRICE")
     private double price;
 
-    public Ticket(String tickNo, String trainUuid, String fromStop, String toStop, String takeDate, double price) {
-        this.tickNo = tickNo;
-        this.trainUuid = trainUuid;
-        this.fromStop = fromStop;
-        this.toStop = toStop;
-        this.takeDate = takeDate;
+    public Ticket(AddTicket addTicket, Train train, double price) {
+        this.trainUuid = train.getId();
+        this.tickNo = RandomString.make(32).toUpperCase();
         this.price = price;
+        this.fromStop = addTicket.getFromStop();
+        this.toStop = addTicket.getToStop();
+        this.takeDate = addTicket.getTakeDate();
+    }
+
+    public CheckErrors sameViaCheck(AddTicket addTicket) {
+        if (addTicket.getFromStop().equals(addTicket.getToStop())) {
+            return new CheckErrors(ErrorInfo.ticketSameVia.getCode(), ErrorInfo.ticketSameVia.getErrorMessage());
+        }
+        return null;
     }
 }

@@ -21,6 +21,7 @@ public class RestTemplateConfig {
             public boolean hasError(ClientHttpResponse clientHttpResponse) throws IOException {
                 return true;
             }
+
             @Override
             public void handleError(ClientHttpResponse clientHttpResponse) throws IOException {
 
@@ -31,7 +32,7 @@ public class RestTemplateConfig {
     }
 
     @Bean
-    public ClientHttpRequestFactory simpleClientHttpRequestFactory(){
+    public ClientHttpRequestFactory simpleClientHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setReadTimeout(5000);
         factory.setConnectTimeout(15000);

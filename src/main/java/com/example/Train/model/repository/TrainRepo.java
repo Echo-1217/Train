@@ -1,4 +1,4 @@
-package com.example.Train.model;
+package com.example.Train.model.repository;
 
 import com.example.Train.model.entity.Train;
 import org.springframework.data.jpa.repository.JpaRepository;
