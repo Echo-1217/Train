@@ -1,10 +1,10 @@
-package com.example.Train.application.query;
+package com.example.Train.appLayer.query;
 
-import com.example.Train.adapter.dto.response.StopDetail;
-import com.example.Train.adapter.dto.response.TrainDetail;
-import com.example.Train.adapter.dto.response.TrainResponse;
-import com.example.Train.domain.entity.Train;
-import com.example.Train.adapter.repository.TrainRepo;
+import com.example.Train.interfaceLayer.rest.dto.response.StopDetail;
+import com.example.Train.interfaceLayer.rest.dto.response.TrainDetail;
+import com.example.Train.interfaceLayer.rest.dto.response.TrainResponse;
+import com.example.Train.domain.aggregate.entity.Train;
+import com.example.Train.infrastructLayer.TrainRepo;
 import com.example.Train.exception.err.CheckErrors;
 import com.example.Train.exception.err.CustomizedException;
 import org.springframework.beans.factory.annotation.Autowired;
