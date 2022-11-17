@@ -1,14 +1,14 @@
-package com.example.Train.appLayer.command;
+package com.example.Train.application.command;
 
-import com.example.Train.interfaceLayer.rest.dto.request.CreateTrainRequest;
-import com.example.Train.interfaceLayer.rest.dto.response.UniqueIdResponse;
-import com.example.Train.appLayer.command.outBound.TrainOutBoundService;
-import com.example.Train.exception.err.CheckErrors;
-import com.example.Train.domain.aggregate.valueObj.AddTrain;
+import com.example.Train.interfa.rest.dto.request.CreateTrainRequest;
+import com.example.Train.interfa.rest.dto.response.UniqueIdResponse;
+import com.example.Train.application.command.outBound.TrainOutBoundService;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.domain.command.AddTrainCommand;
 import com.example.Train.domain.aggregate.entity.Stop;
 import com.example.Train.domain.aggregate.entity.Train;
-import com.example.Train.infrastructLayer.StopRepo;
-import com.example.Train.infrastructLayer.TrainRepo;
+import com.example.Train.infrastructure.StopRepo;
+import com.example.Train.infrastructure.TrainRepo;
 import com.example.Train.domain.aggregate.domainService.TrainDomainService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +30,19 @@ public class TrainCommandService {
     @Transactional
     public UniqueIdResponse createTrainStops(CreateTrainRequest request) throws Exception {
 
-        AddTrain addTrain = new ObjectMapper().convertValue(request, AddTrain.class);
+        AddTrainCommand command = new ObjectMapper().convertValue(request, AddTrainCommand.class);
 
-        //============= single field check ==============
-        CheckErrors checkKind = new Train().checkKind(addTrain);
-        CheckErrors checkTime = new Stop().checkTime(addTrain);
-        CheckErrors checkPlace = new Stop().placeCheck(addTrain);
-        //============= multi field check =============
-        trainDomainService.summaryCheck(addTrain, checkKind, checkTime, checkPlace);
-        trainOutBoundService.trainApiCheck(addTrain);
+        //============= entity check ==============
+        CheckErrors checkKind = new Train().checkKind(command);
+        CheckErrors checkTime = new Stop().checkTime(command);
+        CheckErrors checkPlace = new Stop().placeCheck(command);
+        //============= service check =============
+        trainDomainService.summaryCheck(command, checkKind, checkTime, checkPlace);
+        trainOutBoundService.trainApiCheck(command);
         //============ create entity ============
 
-        Train train = new Train(addTrain);
-        List<Stop> stopList = new Stop().buildList(addTrain, train);
+        Train train = new Train(command);
+        List<Stop> stopList = new Stop().buildList(command, train);
 
         // save to database
         trainRepo.save(train);

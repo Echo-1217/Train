@@ -1,4 +1,4 @@
-package com.example.Train.domain.apiResult;
+package com.example.Train.domain.outbound;
 
 import lombok.Data;
 

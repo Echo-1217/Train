@@ -1,6 +1,6 @@
-package com.example.Train.exception.response;
+package com.example.Train.interfa.event.exception.response;
 
-import com.example.Train.exception.err.CustomizedException;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CustomizedException;
 import lombok.Data;
 
 import java.time.format.DateTimeParseException;

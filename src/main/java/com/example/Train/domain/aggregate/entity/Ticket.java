@@ -1,13 +1,15 @@
-package com.example.Train.domain.entity;
+package com.example.Train.domain.aggregate.entity;
 
-import com.example.Train.exception.err.CheckErrors;
-import com.example.Train.exception.response.ErrorInfo;
-import com.example.Train.domain.valueObj.AddTicket;
+import com.example.Train.domain.command.AddTicketCommand;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CustomizedException;
+import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,19 +37,19 @@ public class Ticket {
     @Column(name = "PRICE")
     private double price;
 
-    public Ticket(AddTicket addTicket, Train train, double price) {
+    public Ticket(AddTicketCommand command, Train train, double price) throws CustomizedException {
+        sameViaCheck(command);
         this.trainUuid = train.getId();
         this.tickNo = RandomString.make(32).toUpperCase();
         this.price = price;
-        this.fromStop = addTicket.getFromStop();
-        this.toStop = addTicket.getToStop();
-        this.takeDate = addTicket.getTakeDate();
+        this.fromStop = command.getFromStop();
+        this.toStop = command.getToStop();
+        this.takeDate = command.getTakeDate();
     }
 
-    public CheckErrors sameViaCheck(AddTicket addTicket) {
-        if (addTicket.getFromStop().equals(addTicket.getToStop())) {
-            return new CheckErrors(ErrorInfo.ticketSameVia.getCode(), ErrorInfo.ticketSameVia.getErrorMessage());
+    public void sameViaCheck(AddTicketCommand command) throws CustomizedException {
+        if (command.getFromStop().equals(command.getToStop())) {
+            throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.ticketSameVia.getCode(), ErrorInfo.ticketSameVia.getErrorMessage())));
         }
-        return null;
     }
 }

@@ -1,6 +1,6 @@
-package com.example.Train.exception.response;
+package com.example.Train.interfa.event.exception.response;
 
-import com.example.Train.exception.err.TrainParameterException;
+//import com.example.Train.interfa.event.exception.customerErrorMsg.TrainParameterException;
 import lombok.Data;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -82,21 +82,21 @@ public class FieldErrorResponse {
         fieldError.add(fieldMap);
     }
 
-    public FieldErrorResponse(TrainParameterException trainParameterException) {
-        this.error = "VALIDATE_FAILED";
-        this.fieldError = new ArrayList<>();
-        // 再放入 fieldError 中
-        Map<String, String> fieldMap = new HashMap<>();
-
-        // 錯誤類型
-        fieldMap.put("code", trainParameterException.getCode());
-        // 錯誤訊息
-        fieldMap.put("message ", trainParameterException.getMessage());
-        // 欄位名稱
-        fieldMap.put("fields", trainParameterException.getFieldName());
-
-        fieldError.add(fieldMap);
-    }
+//    public FieldErrorResponse(TrainParameterException trainParameterException) {
+//        this.error = "VALIDATE_FAILED";
+//        this.fieldError = new ArrayList<>();
+//        // 再放入 fieldError 中
+//        Map<String, String> fieldMap = new HashMap<>();
+//
+//        // 錯誤類型
+//        fieldMap.put("code", trainParameterException.getCode());
+//        // 錯誤訊息
+//        fieldMap.put("message ", trainParameterException.getMessage());
+//        // 欄位名稱
+//        fieldMap.put("fields", trainParameterException.getFieldName());
+//
+//        fieldError.add(fieldMap);
+//    }
 
 //    public FieldErrorResponse(DateTimeParseException dateTimeParseException) {
 //        this.error = "VALIDATE_FAILED";

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddTicket {
+public class AddTicketCommand {
     @JsonProperty("train_no")
     private String trainNo;
     @JsonProperty("from_stop")

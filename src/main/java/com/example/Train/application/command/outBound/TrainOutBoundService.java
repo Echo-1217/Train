@@ -1,9 +1,9 @@
-package com.example.Train.appLayer.command.outBound;
+package com.example.Train.application.command.outBound;
 
-import com.example.Train.domain.aggregate.valueObj.AddTrain;
-import com.example.Train.exception.err.CheckErrors;
-import com.example.Train.exception.err.CustomizedException;
-import com.example.Train.exception.response.ErrorInfo;
+import com.example.Train.domain.command.AddTrainCommand;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CustomizedException;
+import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
 import com.example.Train.domain.outbound.TrainApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,9 @@ public class TrainOutBoundService {
     @Autowired
     RestTemplate restTemplate;
 
-    public void trainApiCheck(AddTrain addTrain) throws CustomizedException {
+    public void trainApiCheck(AddTrainCommand addTrainCommand) throws CustomizedException {
 
-        ResponseEntity<TrainApiResult> response = restTemplate.getForEntity(url + addTrain.getTrainNo(), TrainApiResult.class);
+        ResponseEntity<TrainApiResult> response = restTemplate.getForEntity(url + addTrainCommand.getTrainNo(), TrainApiResult.class);
         int code = response.getStatusCodeValue();
         TrainApiResult trainApiResult = response.getBody();
         if(null==trainApiResult){
@@ -35,7 +35,7 @@ public class TrainOutBoundService {
             throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainNotAvailable.getCode(), ErrorInfo.trainNotAvailable.getErrorMessage())));
         }
     }
-//    public void apiCheck(AddTrain addTrain, List<CheckErrors> checkErrorsList) throws CustomizedException {
+//    public void apiCheck(AddTrainCommand addTrain, List<CheckErrors> checkErrorsList) throws CustomizedException {
 //        ResponseEntity<TrainApiResult> apiResultResponseEntity = trainOutBoundService.getResponse(addTrain.getTrainNo());
 //        log.info(apiResultResponseEntity.toString());
 //        if (200 == apiResultResponseEntity.getStatusCodeValue() && !apiResultResponseEntity.getBody().equals("available")) {

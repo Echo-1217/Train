@@ -1,20 +1,18 @@
-package com.example.Train.domain.domainService;
+package com.example.Train.domain.aggregate.domainService;
 
-import com.example.Train.exception.err.CheckErrors;
-import com.example.Train.exception.err.CustomizedException;
-import com.example.Train.exception.response.ErrorInfo;
-import com.example.Train.domain.aggregate.valueObj.AddTicket;
 import com.example.Train.domain.aggregate.entity.Stop;
 import com.example.Train.domain.aggregate.entity.Train;
-import com.example.Train.infraLayer.repository.StopRepo;
-import com.example.Train.infraLayer.repository.TrainRepo;
+import com.example.Train.domain.command.AddTicketCommand;
+import com.example.Train.infrastructure.StopRepo;
+import com.example.Train.infrastructure.TrainRepo;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CustomizedException;
+import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 // TODO: Q5
 @Slf4j
@@ -26,27 +24,28 @@ public class TicketDomainService {
     StopRepo stopRepo;
 
 
-    public void summaryCheck(AddTicket addTicket, Train train, CheckErrors... checkErrors) throws CustomizedException {
-        List<CheckErrors> checkErrorsList = new ArrayList<>();
+    public void summaryCheck(AddTicketCommand command, Train train, CheckErrors... checkErrors) throws CustomizedException {
+        List<CheckErrors> checkErrorsList = new ArrayList<>(Arrays.stream(checkErrors).filter(Objects::nonNull).toList());
 
-//        Train train = trainNoFindCheck(Integer.parseInt(addTicket.getTrainNo()));
-//        Optional<Stop> from = stopRepo.findByNameAndTrainId(addTicket.getFromStop(), train.getId());
-//        Optional<Stop> to = stopRepo.findByNameAndTrainId(addTicket.getToStop(), train.getId());
+//        Train train = trainNoFindCheck(Integer.parseInt(command.getTrainNo()));
+//        Optional<Stop> from = stopRepo.findByNameAndTrainId(command.getFromStop(), train.getId());
+//        Optional<Stop> to = stopRepo.findByNameAndTrainId(command.getToStop(), train.getId());
         // wrong No
-//        if (trainRepo.findByTrainNo(Integer.parseInt(addTicket.getTrainNo())).isEmpty()) {
+//        if (trainRepo.findByTrainNo(Integer.parseInt(command.getTrainNo())).isEmpty()) {
 //            checkErrorsList.add(new CheckErrors("TrainNoNotExists", "Train No does not exists"));
 //        }
-//        trainNoCheck(addTicket,checkErrorsList);
+//        trainNoCheck(command,checkErrorsList);
 
 //        // same station
-//        if (addTicket.getFromStop().equals(addTicket.getToStop()) || from.isEmpty() || to.isEmpty()) {
+//        if (command.getFromStop().equals(command.getToStop()) || from.isEmpty() || to.isEmpty()) {
 //            checkErrorsList.add(new CheckErrors("TicketStopsInvalid", "Ticket From & To is invalid"));
 //        }
         // wrong stop seq
 //        else if (from.get().getSeq() > to.get().getSeq()) {
 //            checkErrorsList.add(new CheckErrors("TicketStopsInvalid", "Ticket From & To is invalid"));
 //        }
-        viaCheck(addTicket, train, checkErrorsList);
+        viaCheck(command, train, checkErrorsList);
+
         if (!checkErrorsList.isEmpty()) {
             throw new CustomizedException(checkErrorsList);
         }
@@ -67,9 +66,9 @@ public class TicketDomainService {
 //    }
 
 
-    public Train trainNoCheckAndGet(AddTicket addTicket) throws CustomizedException {
+    public Train trainNoCheckAndGet(AddTicketCommand addTicketCommand) throws CustomizedException {
         // train_No
-        Optional<Train> train = trainRepo.findByTrainNo(Integer.parseInt(addTicket.getTrainNo()));
+        Optional<Train> train = trainRepo.findByTrainNo(Integer.parseInt(addTicketCommand.getTrainNo()));
         if (train.isEmpty()) {
             log.info("車次不存在");
             throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainNoNotExists.getCode(), ErrorInfo.trainNoNotExists.getErrorMessage())));
@@ -77,10 +76,10 @@ public class TicketDomainService {
         return train.get();
     }
 
-    public void viaCheck(AddTicket addTicket, Train train, List<CheckErrors> checkErrorsList) {
+    public void viaCheck(AddTicketCommand addTicketCommand, Train train, List<CheckErrors> checkErrorsList) {
 
-        Optional<Stop> from = stopRepo.findByNameAndTrainId(addTicket.getFromStop(), train.getId());
-        Optional<Stop> to = stopRepo.findByNameAndTrainId(addTicket.getToStop(), train.getId());
+        Optional<Stop> from = stopRepo.findByNameAndTrainId(addTicketCommand.getFromStop(), train.getId());
+        Optional<Stop> to = stopRepo.findByNameAndTrainId(addTicketCommand.getToStop(), train.getId());
 
         // check exist
         if (from.isEmpty() || to.isEmpty()) {
@@ -94,9 +93,9 @@ public class TicketDomainService {
         }
     }
 
-    public void trainNoCheck(AddTicket addTicket, List<CheckErrors> checkErrorsList) {
+    public void trainNoCheck(AddTicketCommand addTicketCommand, List<CheckErrors> checkErrorsList) {
         // train_No
-        Optional<Train> train = trainRepo.findByTrainNo(Integer.parseInt(addTicket.getTrainNo()));
+        Optional<Train> train = trainRepo.findByTrainNo(Integer.parseInt(addTicketCommand.getTrainNo()));
         if (train.isEmpty()) {
             checkErrorsList.add(new CheckErrors(ErrorInfo.trainNoNotExists.getCode(), ErrorInfo.trainNoNotExists.getErrorMessage()));
         }

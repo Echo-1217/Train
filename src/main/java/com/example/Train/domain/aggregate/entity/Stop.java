@@ -1,9 +1,9 @@
-package com.example.Train.domain.entity;
+package com.example.Train.domain.aggregate.entity;
 
-import com.example.Train.infaLayer.rest.dto.request.ViaNameTime;
-import com.example.Train.exception.err.CheckErrors;
-import com.example.Train.exception.response.ErrorInfo;
-import com.example.Train.domain.valueObj.AddTrain;
+import com.example.Train.domain.command.AddTrainCommand;
+import com.example.Train.interfa.rest.dto.request.ViaNameTime;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
@@ -44,11 +44,11 @@ public class Stop {
     @Column(name = "DELETE_FLAG")
     private String deleteFlag;
 
-    public List<Stop> buildList(AddTrain addTrain, Train train) {
+    public List<Stop> buildList(AddTrainCommand addTrainCommand, Train train) {
         List<Stop> stopList = new ArrayList<>();
         AtomicInteger seq = new AtomicInteger(1);
 
-        addTrain.getStops().forEach(via -> stopList.add(
+        addTrainCommand.getStops().forEach(via -> stopList.add(
                 Stop.builder()
                         .id(RandomString.make(32).toUpperCase())
                         .trainId(train.getId())
@@ -61,24 +61,24 @@ public class Stop {
     }
 
 
-    public CheckErrors checkTime(AddTrain addTrain) {
+    public CheckErrors checkTime(AddTrainCommand command) {
         // time incorrect
-        if (!Objects.equals(addTrain.getStops().stream().sorted(Comparator.comparing(ViaNameTime::getStopTime)).toList(), addTrain.getStops())) {
+        if (!Objects.equals(command.getStops().stream().sorted(Comparator.comparing(ViaNameTime::getStopTime)).toList(), command.getStops())) {
             return (new CheckErrors(ErrorInfo.trainStopsTimeNotSorted.getCode(), ErrorInfo.trainStopsTimeNotSorted.getErrorMessage()));
         }
         return null;
     }
 
 
-    public CheckErrors placeCheck(AddTrain addTrain) {
+    public CheckErrors placeCheck(AddTrainCommand command) {
 
         // 初始化 list via
         List<String> via = new ArrayList<>();
-        addTrain.getStops().forEach(viaNameTime -> via.add(viaNameTime.getStopName()));
+        command.getStops().forEach(viaNameTime -> via.add(viaNameTime.getStopName()));
 
         AtomicReference<Boolean> error = new AtomicReference<>(false);
         // duplicate stops
-        if (via.stream().distinct().toList().size() != addTrain.getStops().size()) {
+        if (via.stream().distinct().toList().size() != command.getStops().size()) {
             return (new CheckErrors(ErrorInfo.trainStopsDuplicate.getCode(), ErrorInfo.trainStopsDuplicate.getErrorMessage()));
         }
 

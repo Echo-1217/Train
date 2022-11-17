@@ -1,4 +1,4 @@
-package com.example.Train.interfaceLayer.rest.dto.response;
+package com.example.Train.interfa.rest.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.Train.appLayer.command.outBound;
+package com.example.Train.application.command.outBound;
 
 import com.example.Train.domain.outbound.TicketPriceResult;
 import org.springframework.beans.factory.annotation.Autowired;

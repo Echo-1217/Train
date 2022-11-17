@@ -1,4 +1,4 @@
-package com.example.Train.infrastructLayer;
+package com.example.Train.infrastructure;
 
 import com.example.Train.domain.aggregate.entity.Stop;
 import org.springframework.data.jpa.repository.JpaRepository;

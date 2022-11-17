@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddTrain {
+public class AddTrainCommand {
     @JsonProperty("train_no")
     private int trainNo;
     @JsonProperty("train_kind")

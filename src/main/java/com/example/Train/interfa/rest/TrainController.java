@@ -1,14 +1,14 @@
-package com.example.Train.interfaceLayer.rest;
+package com.example.Train.interfa.rest;
 
-import com.example.Train.interfaceLayer.rest.dto.request.CreateTrainRequest;
-import com.example.Train.interfaceLayer.rest.dto.request.TicketRequest;
-import com.example.Train.interfaceLayer.rest.dto.response.TrainDetail;
-import com.example.Train.interfaceLayer.rest.dto.response.TrainResponse;
-import com.example.Train.interfaceLayer.rest.dto.response.UniqueIdResponse;
-import com.example.Train.exception.err.CustomizedException;
-import com.example.Train.appLayer.command.TicketCommandService;
-import com.example.Train.appLayer.command.TrainCommandService;
-import com.example.Train.appLayer.query.QueryService;
+import com.example.Train.interfa.rest.dto.request.CreateTrainRequest;
+import com.example.Train.interfa.rest.dto.request.TicketRequest;
+import com.example.Train.interfa.rest.dto.response.TrainDetail;
+import com.example.Train.interfa.rest.dto.response.TrainResponse;
+import com.example.Train.interfa.rest.dto.response.UniqueIdResponse;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CustomizedException;
+import com.example.Train.application.command.TicketCommandService;
+import com.example.Train.application.command.TrainCommandService;
+import com.example.Train.application.query.QueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

@@ -1,4 +1,4 @@
-package com.example.Train.interfaceLayer.rest.dto.request;
+package com.example.Train.interfa.rest.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

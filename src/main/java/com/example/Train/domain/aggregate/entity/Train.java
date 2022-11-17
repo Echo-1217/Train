@@ -1,8 +1,8 @@
-package com.example.Train.domain.entity;
+package com.example.Train.domain.aggregate.entity;
 
-import com.example.Train.exception.err.CheckErrors;
-import com.example.Train.exception.response.ErrorInfo;
-import com.example.Train.domain.valueObj.AddTrain;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
+import com.example.Train.domain.command.AddTrainCommand;
 import lombok.*;
 import net.bytebuddy.utility.RandomString;
 
@@ -27,7 +27,7 @@ public class Train {
     @Column(name = "TRAIN_KIND")
     private String trainKind;
 
-    public Train(AddTrain add) {
+    public Train(AddTrainCommand add) {
         this.id = RandomString.make(32).toUpperCase();
         this.trainNo = add.getTrainNo();
         this.trainKind = NameKindTranslator.getKind(add.getTrainKind());
@@ -35,10 +35,10 @@ public class Train {
 
 
     // TODO: Q7
-    public CheckErrors checkKind(AddTrain addTrain) {
+    public CheckErrors checkKind(AddTrainCommand addTrainCommand) {
 
         // invalid kind
-        if (null == NameKindTranslator.getKind(addTrain.getTrainKind())) {
+        if (null == NameKindTranslator.getKind(addTrainCommand.getTrainKind())) {
             return new CheckErrors(ErrorInfo.trainKindInvalid.getCode(), ErrorInfo.trainKindInvalid.getErrorMessage());
         }
         return null;

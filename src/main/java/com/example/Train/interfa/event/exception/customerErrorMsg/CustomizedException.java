@@ -1,4 +1,4 @@
-package com.example.Train.exception.err;
+package com.example.Train.interfa.event.exception.customerErrorMsg;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

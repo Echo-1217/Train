@@ -1,9 +1,9 @@
-package com.example.Train.interfa.event;
+package com.example.Train.interfa.event.handler;
 
-import com.example.Train.exception.err.CustomizedException;
-import com.example.Train.exception.err.TrainParameterException;
-import com.example.Train.exception.response.CheckErrorResponse;
-import com.example.Train.exception.response.FieldErrorResponse;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CustomizedException;
+//import com.example.Train.interfa.event.exception.customerErrorMsg.TrainParameterException;
+import com.example.Train.interfa.event.exception.response.CheckErrorResponse;
+import com.example.Train.interfa.event.exception.response.FieldErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -49,12 +49,12 @@ public class TrainExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(TrainParameterException.class)
-    public ResponseEntity<FieldErrorResponse> handler(TrainParameterException e) {
-        FieldErrorResponse error = new FieldErrorResponse(e);
-        e.printStackTrace();
-        return new ResponseEntity<>(error, HttpStatus.valueOf(400));
-    }
+//    @ExceptionHandler(TrainParameterException.class)
+//    public ResponseEntity<FieldErrorResponse> handler(TrainParameterException e) {
+//        FieldErrorResponse error = new FieldErrorResponse(e);
+//        e.printStackTrace();
+//        return new ResponseEntity<>(error, HttpStatus.valueOf(400));
+//    }
 
     @ExceptionHandler(CustomizedException.class)
     public ResponseEntity<CheckErrorResponse> handler(CustomizedException e) {

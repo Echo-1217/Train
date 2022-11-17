@@ -20,7 +20,7 @@ all-->
         <RollingFile
 
                 name="RollingFile" fileName="${Log Roll File}/rollF.log"
-                filePattern="${Log Spring 4}/$${date:yyyy-MM-dd}/%d{HH-mm}_%i.log">
+                filePattern="${Spring-Boot-Hax}/$${date:yyyy-MM-dd}/%d{HH-mm}_%i.log">
 
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5p %c{1} -%M   - %m%n%n"/>
             <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="ACCEPT"/>

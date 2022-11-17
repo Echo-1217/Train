@@ -1,11 +1,10 @@
-package com.example.Train.domain.domainService;
+package com.example.Train.domain.aggregate.domainService;
 
-import com.example.Train.exception.err.CheckErrors;
-import com.example.Train.exception.err.CustomizedException;
-import com.example.Train.exception.response.ErrorInfo;
-import com.example.Train.domain.aggregate.valueObj.AddTrain;
-import com.example.Train.infraLayer.repository.TrainRepo;
-import com.example.Train.appLayer.command.outBound.TrainOutBoundService;
+import com.example.Train.domain.command.AddTrainCommand;
+import com.example.Train.infrastructure.TrainRepo;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.interfa.event.exception.customerErrorMsg.CustomizedException;
+import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,26 +20,26 @@ import java.util.Objects;
 public class TrainDomainService {
     @Autowired
     TrainRepo trainRepo;
-    @Autowired
-    TrainOutBoundService trainOutBoundService;
+//    @Autowired
+//    TrainOutBoundService trainOutBoundService;
 
 
     public void singleChecked(CheckErrors... checkErrors) throws CustomizedException {
         throw new CustomizedException(Arrays.stream(checkErrors).filter(Objects::nonNull).toList());
     }
 
-    public void summaryCheck(AddTrain addTrain, CheckErrors... checkErrors) throws Exception {
+    public void summaryCheck(AddTrainCommand addTrainCommand, CheckErrors... checkErrors) throws Exception {
         List<CheckErrors> checkErrorsList = new ArrayList<>();
 
         checkErrorsList.addAll(Arrays.stream(checkErrors).filter(Objects::nonNull).toList());
 
 //        // wrong No
-//        if (trainRepo.findByTrainNo((addTrain.getTrainNo())).isPresent()) {
+//        if (trainRepo.findByTrainNo((addTrainCommand.getTrainNo())).isPresent()) {
 //            checkErrorsList.add(new CheckErrors("TrainNoExists", "Train No is exists"));
 //        }
-        trainNoCheck(addTrain, checkErrorsList);
+        trainNoCheck(addTrainCommand, checkErrorsList);
 
-//        String placeCorrectCheck = placeCheck(addTrain);
+//        String placeCorrectCheck = placeCheck(addTrainCommand);
         // duplicate stops
 //        if (placeCorrectCheck.equals("duplicate")) {
 //            checkErrorsList.add(new CheckErrors("TrainStopsDuplicate", "Train Stops is duplicate"));
@@ -49,16 +48,15 @@ public class TrainDomainService {
 //        if (placeCorrectCheck.equals("seq")) {
 //            checkErrorsList.add(new CheckErrors("TrainStopsNotSorted", "Train Stops is not sorted"));
 //        }
-//        placeCheck(addTrain,checkErrorsList);
+//        placeCheck(addTrainCommand,checkErrorsList);
 
-        // TODO:Q6
         // api
-//        ResponseEntity<TrainApiResult> apiResultResponseEntity = trainOutBoundService.getResponse(addTrain.getTrainNo());
+//        ResponseEntity<TrainApiResult> apiResultResponseEntity = trainOutBoundService.getResponse(addTrainCommand.getTrainNo());
 //        if (200 == apiResultResponseEntity.getStatusCodeValue() && !Objects.equals(apiResultResponseEntity.getBody(), "available")) {
 //            checkErrorsList.add(new CheckErrors("TrainNoNotExists", "Train is not available"));
 //        }
 
-//        apiCheck(addTrain, checkErrorsList);
+//        apiCheck(addTrainCommand, checkErrorsList);
 
         // return
         if (!checkErrorsList.isEmpty()) {
@@ -66,15 +64,14 @@ public class TrainDomainService {
         }
     }
 
-    public void trainNoCheck(AddTrain addTrain, List<CheckErrors> checkErrorsList) {
-        if (trainRepo.findByTrainNo((addTrain.getTrainNo())).isPresent()) {
+    public void trainNoCheck(AddTrainCommand addTrainCommand, List<CheckErrors> checkErrorsList) {
+        if (trainRepo.findByTrainNo((addTrainCommand.getTrainNo())).isPresent()) {
             checkErrorsList.add(new CheckErrors(ErrorInfo.trainNoExists.getCode(), ErrorInfo.trainNoExists.getErrorMessage()));
         }
     }
 
 
-
-//    private void placeCheck(AddTrain addTrain, List<CheckErrors> checkErrorsList) {
+//    private void placeCheck(AddTrainCommand addTrain, List<CheckErrors> checkErrorsList) {
 //        // 初始化 list via
 //        List<String> via = new ArrayList<>();
 //        addTrain.getStops().forEach(viaNameTime -> via.add(viaNameTime.getStopName()));
