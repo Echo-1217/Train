@@ -1,6 +1,6 @@
 package com.example.Train.domain.command;
 
-import com.example.Train.interfa.rest.dto.request.ViaNameTime;
+import com.example.Train.intfa.dto.request.ViaNameTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;

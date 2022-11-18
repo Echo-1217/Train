@@ -1,9 +1,10 @@
 package com.example.Train.domain.aggregate.entity;
 
+import com.example.Train.config.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.config.event.exception.customerErrorMsg.CustomizedException;
+import com.example.Train.config.event.exception.customerErrorMsg.ErrorInfo;
 import com.example.Train.domain.command.AddTrainCommand;
-import com.example.Train.interfa.rest.dto.request.ViaNameTime;
-import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
-import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
+import com.example.Train.intfa.dto.request.ViaNameTime;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
@@ -21,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Getter
-@Setter
+//@Setter
 @ToString
 @Builder
 @AllArgsConstructor
@@ -44,14 +45,15 @@ public class Stop {
     @Column(name = "DELETE_FLAG")
     private String deleteFlag;
 
-    public List<Stop> buildList(AddTrainCommand addTrainCommand, Train train) {
+    public List<Stop> buildList(AddTrainCommand command, String trainId) throws CustomizedException {
         List<Stop> stopList = new ArrayList<>();
         AtomicInteger seq = new AtomicInteger(1);
-
-        addTrainCommand.getStops().forEach(via -> stopList.add(
+        checkTime(command);
+        checkPlace(command);
+        command.getStops().forEach(via -> stopList.add(
                 Stop.builder()
                         .id(RandomString.make(32).toUpperCase())
-                        .trainId(train.getId())
+                        .trainId(trainId)
                         .seq(seq.getAndIncrement())
                         .name(via.getStopName())
                         .time(LocalTime.parse(via.getStopTime()))
@@ -59,18 +61,21 @@ public class Stop {
         );
         return stopList;
     }
+//
+//    public Stop(){
+//
+//    }
 
 
-    public CheckErrors checkTime(AddTrainCommand command) {
+    public void checkTime(AddTrainCommand command) throws CustomizedException {
         // time incorrect
         if (!Objects.equals(command.getStops().stream().sorted(Comparator.comparing(ViaNameTime::getStopTime)).toList(), command.getStops())) {
-            return (new CheckErrors(ErrorInfo.trainStopsTimeNotSorted.getCode(), ErrorInfo.trainStopsTimeNotSorted.getErrorMessage()));
+            throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainStopsTimeNotSorted.getCode(), ErrorInfo.trainStopsTimeNotSorted.getErrorMessage())));
         }
-        return null;
     }
 
 
-    public CheckErrors placeCheck(AddTrainCommand command) {
+    public void checkPlace(AddTrainCommand command) throws CustomizedException {
 
         // 初始化 list via
         List<String> via = new ArrayList<>();
@@ -79,7 +84,7 @@ public class Stop {
         AtomicReference<Boolean> error = new AtomicReference<>(false);
         // duplicate stops
         if (via.stream().distinct().toList().size() != command.getStops().size()) {
-            return (new CheckErrors(ErrorInfo.trainStopsDuplicate.getCode(), ErrorInfo.trainStopsDuplicate.getErrorMessage()));
+            throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainStopsDuplicate.getCode(), ErrorInfo.trainStopsDuplicate.getErrorMessage())));
         }
 
         List<String> place = List.of("屏東", "高雄", "臺南", "嘉義", "彰化", "台中", "苗粟", "新竹", "桃園", "樹林",
@@ -114,8 +119,10 @@ public class Stop {
 
         });
         if (error.get().equals(true)) {
-            return new CheckErrors(ErrorInfo.trainStopsNotSorted.getCode(), ErrorInfo.trainStopsNotSorted.getErrorMessage());
+            throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainStopsNotSorted.getCode(), ErrorInfo.trainStopsNotSorted.getErrorMessage())));
+
+//            return new CheckErrors(ErrorInfo.trainStopsNotSorted.getCode(), ErrorInfo.trainStopsNotSorted.getErrorMessage());
         }
-        return null;
+//        return null;
     }
 }

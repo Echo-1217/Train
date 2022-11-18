@@ -1,10 +1,12 @@
 package com.example.Train.domain.aggregate.entity;
 
+import com.example.Train.config.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.config.event.exception.customerErrorMsg.CustomizedException;
+import com.example.Train.config.event.exception.customerErrorMsg.ErrorInfo;
 import com.example.Train.domain.command.AddTicketCommand;
-import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
-import com.example.Train.interfa.event.exception.customerErrorMsg.CustomizedException;
-import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
 
@@ -12,8 +14,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Getter
-@Setter
-@ToString
+//@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -37,9 +38,9 @@ public class Ticket {
     @Column(name = "PRICE")
     private double price;
 
-    public Ticket(AddTicketCommand command, Train train, double price) throws CustomizedException {
+    public Ticket(AddTicketCommand command, String trainUuid, double price) throws CustomizedException {
         sameViaCheck(command);
-        this.trainUuid = train.getId();
+        this.trainUuid = trainUuid;
         this.tickNo = RandomString.make(32).toUpperCase();
         this.price = price;
         this.fromStop = command.getFromStop();

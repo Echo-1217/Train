@@ -1,13 +1,13 @@
 package com.example.Train.domain.aggregate.domainService;
 
+import com.example.Train.config.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.config.event.exception.customerErrorMsg.CustomizedException;
+import com.example.Train.config.event.exception.customerErrorMsg.ErrorInfo;
 import com.example.Train.domain.aggregate.entity.Stop;
 import com.example.Train.domain.aggregate.entity.Train;
 import com.example.Train.domain.command.AddTicketCommand;
-import com.example.Train.infrastructure.StopRepo;
-import com.example.Train.infrastructure.TrainRepo;
-import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
-import com.example.Train.interfa.event.exception.customerErrorMsg.CustomizedException;
-import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
+import com.example.Train.infrastructure.repo.StopRepo;
+import com.example.Train.infrastructure.repo.TrainRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

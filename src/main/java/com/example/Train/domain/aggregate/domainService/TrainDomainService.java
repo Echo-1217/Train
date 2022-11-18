@@ -1,10 +1,10 @@
 package com.example.Train.domain.aggregate.domainService;
 
+import com.example.Train.config.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.config.event.exception.customerErrorMsg.CustomizedException;
+import com.example.Train.config.event.exception.customerErrorMsg.ErrorInfo;
 import com.example.Train.domain.command.AddTrainCommand;
-import com.example.Train.infrastructure.TrainRepo;
-import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
-import com.example.Train.interfa.event.exception.customerErrorMsg.CustomizedException;
-import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
+import com.example.Train.infrastructure.repo.TrainRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,10 +28,9 @@ public class TrainDomainService {
         throw new CustomizedException(Arrays.stream(checkErrors).filter(Objects::nonNull).toList());
     }
 
-    public void summaryCheck(AddTrainCommand addTrainCommand, CheckErrors... checkErrors) throws Exception {
-        List<CheckErrors> checkErrorsList = new ArrayList<>();
+    public void summaryCheck(AddTrainCommand addTrainCommand, CheckErrors... checkErrors) throws CustomizedException {
 
-        checkErrorsList.addAll(Arrays.stream(checkErrors).filter(Objects::nonNull).toList());
+        List<CheckErrors> checkErrorsList = new ArrayList<>(Arrays.stream(checkErrors).filter(Objects::nonNull).toList());
 
 //        // wrong No
 //        if (trainRepo.findByTrainNo((addTrainCommand.getTrainNo())).isPresent()) {

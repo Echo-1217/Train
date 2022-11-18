@@ -1,19 +1,19 @@
 package com.example.Train.domain.aggregate.entity;
 
-import com.example.Train.interfa.event.exception.customerErrorMsg.CheckErrors;
-import com.example.Train.interfa.event.exception.customerErrorMsg.ErrorInfo;
+import com.example.Train.config.event.exception.customerErrorMsg.CheckErrors;
+import com.example.Train.config.event.exception.customerErrorMsg.CustomizedException;
+import com.example.Train.config.event.exception.customerErrorMsg.ErrorInfo;
 import com.example.Train.domain.command.AddTrainCommand;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.bytebuddy.utility.RandomString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
-@Setter
-@ToString
+//@Setter
 @Entity
 @AllArgsConstructor
 @Table(name = "TRAIN")
@@ -27,21 +27,32 @@ public class Train {
     @Column(name = "TRAIN_KIND")
     private String trainKind;
 
-    public Train(AddTrainCommand add) {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+    private List<Stop> stopList;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+//    private  List<Ticket> ticketList;
+
+
+    public Train(AddTrainCommand command) throws CustomizedException {
+//        List<CheckErrors> checkErrorsList = new ArrayList<>(List.of(checkKind(command)));
+        checkKind(command);
         this.id = RandomString.make(32).toUpperCase();
-        this.trainNo = add.getTrainNo();
-        this.trainKind = NameKindTranslator.getKind(add.getTrainKind());
+        this.trainNo = command.getTrainNo();
+        this.trainKind = NameKindTranslator.getKind(command.getTrainKind());
+        this.stopList = new Stop().buildList(command, this.id);
+//        this.ticketList = List.of(new Ticket(command,this.id,new TicketOutBoundService().getTicketPrice()))
     }
 
 
     // TODO: Q7
-    public CheckErrors checkKind(AddTrainCommand addTrainCommand) {
+    public void checkKind(AddTrainCommand addTrainCommand) throws CustomizedException {
 
         // invalid kind
         if (null == NameKindTranslator.getKind(addTrainCommand.getTrainKind())) {
-            return new CheckErrors(ErrorInfo.trainKindInvalid.getCode(), ErrorInfo.trainKindInvalid.getErrorMessage());
+            throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainKindInvalid.getCode(), ErrorInfo.trainKindInvalid.getErrorMessage())));
         }
-        return null;
+//        return null;
     }
 
     public enum NameKindTranslator {
@@ -97,4 +108,8 @@ public class Train {
             return super.toString();
         }
     }
+
+//    private void checkSummary(){
+//
+//    }
 }
