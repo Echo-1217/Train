@@ -27,7 +27,7 @@ public class Train {
     @Column(name = "TRAIN_KIND")
     private String trainKind;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "trainId", cascade = CascadeType.ALL)
     private List<Stop> stopList;
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id", cascade = CascadeType.ALL)

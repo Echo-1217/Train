@@ -76,53 +76,64 @@ public class Stop {
 
 
     public void checkPlace(AddTrainCommand command) throws CustomizedException {
+        try {
 
-        // 初始化 list via
-        List<String> via = new ArrayList<>();
-        command.getStops().forEach(viaNameTime -> via.add(viaNameTime.getStopName()));
+            // 初始化 list via
+            List<String> via = new ArrayList<>();
+            command.getStops().forEach(viaNameTime -> via.add(viaNameTime.getStopName()));
 
-        AtomicReference<Boolean> error = new AtomicReference<>(false);
-        // duplicate stops
-        if (via.stream().distinct().toList().size() != command.getStops().size()) {
-            throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainStopsDuplicate.getCode(), ErrorInfo.trainStopsDuplicate.getErrorMessage())));
-        }
-
-        List<String> place = List.of("屏東", "高雄", "臺南", "嘉義", "彰化", "台中", "苗粟", "新竹", "桃園", "樹林",
-                "板橋", "萬華", "台北", "松山", "南港", "汐止", "基隆");
-
-        AtomicInteger currPlace = new AtomicInteger(-1);
-
-        int first = place.indexOf(via.get(0));
-        int next = place.indexOf(via.get(1));
-
-        // 第一個地點的index
-        currPlace.set(first);
-
-        via.forEach(s -> {
-
-            // (南下)  first > next   and  下一個地點 > 前一個
-            if (first > next && place.indexOf(s) > currPlace.get()) {
-                log.info("南下");
-                // throw
+            AtomicReference<Boolean> error = new AtomicReference<>(false);
+            // duplicate stops
+            if (via.stream().distinct().toList().size() != command.getStops().size()) {
                 error.set(true);
-                return;
+                throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainStopsDuplicate.getCode(), ErrorInfo.trainStopsDuplicate.getErrorMessage())));
             }
-            // (北上) first < next and 下一個地點 < 前一個
-            if (first < next && place.indexOf(s) < currPlace.get()) {
-                log.info("北上");
-                // throw
-                error.set(true);
-                return;
-            }
-            // 放入下一個地點
-            currPlace.set(place.indexOf(s));
 
-        });
-        if (error.get().equals(true)) {
-            throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainStopsNotSorted.getCode(), ErrorInfo.trainStopsNotSorted.getErrorMessage())));
+            List<String> place = List.of("屏東", "高雄", "臺南", "嘉義", "彰化", "台中", "苗栗", "新竹", "桃園", "樹林",
+                    "板橋", "萬華", "台北", "松山", "南港", "汐止", "基隆");
 
+            via.forEach(stop -> {
+                if (!place.contains(stop)) {
+                    error.set(true);
+                }
+            });
+
+            AtomicInteger currPlace = new AtomicInteger(-1);
+
+            int first = place.indexOf(via.get(0));
+            int next = place.indexOf(via.get(1));
+
+            // 第一個地點的index
+            currPlace.set(first);
+
+            via.forEach(s -> {
+
+                // (南下)  first > next   and  下一個地點 > 前一個
+                if (first > next && place.indexOf(s) > currPlace.get()) {
+                    log.info("南下");
+                    // throw
+                    error.set(true);
+                    return;
+                }
+                // (北上) first < next and 下一個地點 < 前一個
+                if (first < next && place.indexOf(s) < currPlace.get()) {
+                    log.info("北上");
+                    // throw
+                    error.set(true);
+                    return;
+                }
+                // 放入下一個地點
+                currPlace.set(place.indexOf(s));
+
+            });
+            if (error.get().equals(true)) {
+                throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.trainStopsNotSorted.getCode(), ErrorInfo.trainStopsNotSorted.getErrorMessage())));
 //            return new CheckErrors(ErrorInfo.trainStopsNotSorted.getCode(), ErrorInfo.trainStopsNotSorted.getErrorMessage());
-        }
+            }
 //        return null;
+        } catch (RuntimeException exception) {
+            exception.printStackTrace();
+
+        }
     }
 }

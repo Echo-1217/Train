@@ -16,8 +16,6 @@ import javax.transaction.Transactional;
 public class TrainCommandService {
     @Autowired
     TrainRepo trainRepo;
-    //    @Autowired
-//    StopRepo stopRepo;
     @Autowired
     TrainDomainService trainDomainService;
     @Autowired
@@ -25,24 +23,13 @@ public class TrainCommandService {
 
     @Transactional
     public UniqueIdResponse createTrainStops(AddTrainCommand command) throws CustomizedException {
-
-//        AddTrainCommand command = new ObjectMapper().convertValue(connand, AddTrainCommand.class);
-
-        //============= entity check ==============
-//        CheckErrors checkKind = new Train().checkKind(command);
-//        CheckErrors checkTime = new Stop().checkTime(command);
-//        CheckErrors checkPlace = new Stop().placeCheck(command);
         //============= service check =============
         trainDomainService.summaryCheck(command);
         trainOutBoundService.trainApiCheck(command);
         //============ create entity ============
-
         Train train = new Train(command);
-//        List<Stop> stopList = new Stop().buildList(command, train);
-
         // save to database
         trainRepo.save(train);
-//        stopRepo.saveAll(stopList);
         return new UniqueIdResponse(train.getId());
     }
 }

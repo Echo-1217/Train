@@ -22,7 +22,8 @@ public enum ErrorInfo {
     //    trainNoNotExistsCN("","車次不存在"),
 //    trainNameNotExistsCN("","站名不存在"),
     ticketOutBoundApi("ticketOutBoundApi", "the outBound error"),
-    trainOutBoundApi("trainOutBoundApi", "the outBound error");
+    trainOutBoundApi("trainOutBoundApi", "the outBound error"),
+    stopNameNotFound("stopNameNotFound", "Train_stops name Not Found");
     private String code;
     private String errorMessage;
 
