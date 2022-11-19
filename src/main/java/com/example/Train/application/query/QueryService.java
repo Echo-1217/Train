@@ -3,6 +3,7 @@ package com.example.Train.application.query;
 import com.example.Train.config.event.exception.customerErrorMsg.CheckErrors;
 import com.example.Train.config.event.exception.customerErrorMsg.CustomizedException;
 import com.example.Train.config.event.exception.customerErrorMsg.ErrorInfo;
+import com.example.Train.domain.aggregate.entity.Stop;
 import com.example.Train.domain.aggregate.entity.Train;
 import com.example.Train.domain.command.QueryStopCommand;
 import com.example.Train.domain.command.QueryTrainCommand;
@@ -10,22 +11,21 @@ import com.example.Train.infrastructure.repo.TrainRepo;
 import com.example.Train.intfa.dto.response.StopDetail;
 import com.example.Train.intfa.dto.response.TrainDetail;
 import com.example.Train.intfa.dto.response.TrainResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
+@Slf4j
 public class QueryService {
 
     @Autowired
     TrainRepo trainRepo;
 
     public TrainResponse getTrainStopsByTrainNO(QueryTrainCommand command) throws Exception {
-//        List<Map<String, ?>> dataList = trainRepo.findDataByTrainNo(command.getTrainNo());
         Optional<Train> trainOptional = trainRepo.findByTrainNo(command.getTrainNo());
         List<StopDetail> stopDetails = new ArrayList<>();
 
@@ -48,6 +48,28 @@ public class QueryService {
                 .build();
     }
 
+//    public List<TrainDetail> getTrainStopsByVia(QueryStopCommand command) throws CustomizedException {
+//        List<TrainDetail> details = new ArrayList<>();
+//
+//        List<Train> trainList = trainRepo.findAll();
+//
+//        if (trainList.isEmpty()) {
+//            throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.stopNameNotFound.getCode(), ErrorInfo.stopNameNotFound.getErrorMessage())));
+//        }
+//
+//        trainList.forEach(train -> train.getStopList().forEach(stop -> {
+//            if (stop.getName().equals(command.getVia().trim())) {
+//                details.add(TrainDetail.builder()
+//                        .trainNo(train.getTrainNo())
+//                        .trainKind(Train.NameKindTranslator.getName(train.getTrainKind()))
+//                        .build());
+//            }
+//        }));
+//
+//        return details;
+//    }
+
+
     public List<TrainDetail> getTrainStopsByVia(QueryStopCommand command) throws CustomizedException {
         List<TrainDetail> details = new ArrayList<>();
 
@@ -57,14 +79,17 @@ public class QueryService {
             throw new CustomizedException(List.of(new CheckErrors(ErrorInfo.stopNameNotFound.getCode(), ErrorInfo.stopNameNotFound.getErrorMessage())));
         }
 
-        trainList.forEach(train -> train.getStopList().forEach(stop -> {
-            if (stop.getName().equals(command.getVia().trim())) {
-                details.add(TrainDetail.builder()
+
+        trainList.stream().sorted(Comparator.comparing(train -> {
+                    for (Stop stop : train.getStopList()) {
+                        if (stop.getName().equals(command.getVia().trim())) {return stop.getTime();}
+                    }
+                    return null;
+                })).forEach(train -> details.add(TrainDetail.builder()
                         .trainNo(train.getTrainNo())
                         .trainKind(Train.NameKindTranslator.getName(train.getTrainKind()))
-                        .build());
-            }
-        }));
+                        .build()));
+
 
         return details;
     }
