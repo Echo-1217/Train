@@ -4,7 +4,7 @@ import com.example.Train.config.event.exception.customerErrorMsg.CustomizedExcep
 import com.example.Train.domain.aggregate.domainService.TicketDomainService;
 import com.example.Train.domain.aggregate.entity.Ticket;
 import com.example.Train.domain.command.AddTicketCommand;
-import com.example.Train.infrastructure.outbound.TicketOutBoundService;
+import com.example.Train.infrastructure.outbound.service.TicketOutBoundService;
 import com.example.Train.infrastructure.repo.TicketRepo;
 import com.example.Train.intfa.dto.response.UniqueIdResponse;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
-package com.example.Train.infrastructure.outbound;
+package com.example.Train.infrastructure.outbound.service;
 
+import com.example.Train.infrastructure.outbound.result.TicketPriceResult;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,9 +1,10 @@
-package com.example.Train.infrastructure.outbound;
+package com.example.Train.infrastructure.outbound.service;
 
 import com.example.Train.config.event.exception.customerErrorMsg.CheckErrors;
 import com.example.Train.config.event.exception.customerErrorMsg.CustomizedException;
 import com.example.Train.config.event.exception.customerErrorMsg.ErrorInfo;
 import com.example.Train.domain.command.AddTrainCommand;
+import com.example.Train.infrastructure.outbound.result.TrainApiResult;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
-package com.example.Train.infrastructure.outbound;
+package com.example.Train.infrastructure.outbound.result;
 
+import com.example.Train.infrastructure.outbound.result.IdName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

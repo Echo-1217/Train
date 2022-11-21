@@ -1,4 +1,4 @@
-package com.example.Train.infrastructure.outbound;
+package com.example.Train.infrastructure.outbound.result;
 
 import lombok.Data;
 
